@@ -143,7 +143,9 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 	
 	public List<MdrtbPatientProgram> getMdrtbPatientPrograms(Patient patient) {
     	
-    	List<PatientProgram> programs = Context.getProgramWorkflowService().getPatientPrograms(patient, getMdrtbProgram(), null, null, null, null, false);
+    	// List<PatientProgram> programs = Context.getProgramWorkflowService().getPatientPrograms(patient, getMdrtbProgram(), null, null, null, null, false);
+    	// Commented out this line to allow this function to return both TB and MDRTB Patients
+        List<PatientProgram> programs = Context.getProgramWorkflowService().getPatientPrograms(patient, null, null, null, null, null, false);
     	
     	// sort the programs so oldest is first and most recent is last
     	Collections.sort(programs, new PatientProgramComparator());
