@@ -52,9 +52,10 @@ import org.openmrs.module.mdrtb.specimen.SpecimenImpl;
 import org.openmrs.module.reporting.common.ObjectUtil;
 
 public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService {
+    private static final int MAX_MDR_DURATION = 24;
+    private static final int MAX_TBB_DURATION = 8;
 	
 	protected final Log log = LogFactory.getLog(getClass());
-	
 	protected MdrtbDAO dao;
 	
 	private MdrtbConceptMap conceptMap = new MdrtbConceptMap(); // TODO: should this be a bean?		
@@ -142,31 +143,26 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 	}
 	
 	public List<MdrtbPatientProgram> getMdrtbPatientPrograms(Patient patient) {
-    	
     	// List<PatientProgram> programs = Context.getProgramWorkflowService().getPatientPrograms(patient, getMdrtbProgram(), null, null, null, null, false);
     	// Commented out this line to allow this function to return both TB and MDRTB Patients
         List<PatientProgram> programs = Context.getProgramWorkflowService().getPatientPrograms(patient, null, null, null, null, null, false);
-    	
-    	// sort the programs so oldest is first and most recent is last
-    	Collections.sort(programs, new PatientProgramComparator());
-    	
-    	List<MdrtbPatientProgram> mdrtbPrograms = new LinkedList<MdrtbPatientProgram>();
-    	
-    	// convert to mdrtb patient programs
-    	for (PatientProgram program : programs) {
-    		mdrtbPrograms.add(new MdrtbPatientProgram(program));
-    	}
-    	
-    	return mdrtbPrograms;
+        // sort the programs so oldest is first and most recent is last
+        Collections.sort(programs, new PatientProgramComparator());
+        List<MdrtbPatientProgram> mdrtbPrograms = new LinkedList<MdrtbPatientProgram>();
+
+        // convert to mdrtb patient programs
+        for (PatientProgram program : programs) {
+            mdrtbPrograms.add(new MdrtbPatientProgram(program));
+        }
+        return mdrtbPrograms;
     }
 
 	
 	public MdrtbPatientProgram getMostRecentMdrtbPatientProgram(Patient patient) {
     	List<MdrtbPatientProgram> programs = getMdrtbPatientPrograms(patient);
-    	
-    	if (programs.size() > 0) {
-    		return programs.get(programs.size() - 1);
-    	} 
+		if (programs.size() > 0) {
+			return programs.get(programs.size() - 1);
+		}
     	else {
     		return null;
     	}
@@ -615,8 +611,17 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
   
     public Set<ProgramWorkflowState> getPossibleClassificationsAccordingToPreviousTreatment() {
     	return getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PREVIOUS_TX));
-    }    
-    
+    }
+
+    public Set<ProgramWorkflowState> getPossibleClassificationsAccordingToPatientType() {
+        Program program = Context.getProgramWorkflowService().getProgramByName(Context.getAdministrationService().getGlobalProperty("tb.program_name"));
+        return getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PATIENT_TYPE), program);
+    }
+    public Set<ProgramWorkflowState> getPossibleClassificationsAccordingToTreatmentCategory() {
+        Program program = Context.getProgramWorkflowService().getProgramByName(Context.getAdministrationService().getGlobalProperty("tb.program_name"));
+        return getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_TREATMENT_CATG), program);
+    }
+
     public String getColorForConcept(Concept concept) {
     	if(concept == null) {
     		log.error("Cannot fetch color for null concept");
@@ -661,6 +666,16 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     	}
     	return null;
     }
+
+	private Set<ProgramWorkflowState> getPossibleWorkflowStates(Concept workflowConcept, Program program) {
+		// get the workflow via the concept name
+		for (ProgramWorkflow workflow : program.getAllWorkflows()) {
+			if (workflow.getConcept().equals(workflowConcept)) {
+				return workflow.getStates(false);
+			}
+		}
+		return null;
+	}
     
     
     private Map<Integer,String> loadCache(String mapAsString) {

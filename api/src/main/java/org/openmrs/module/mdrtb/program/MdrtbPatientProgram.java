@@ -7,15 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.openmrs.Concept;
-import org.openmrs.Encounter;
-import org.openmrs.Location;
-import org.openmrs.Obs;
-import org.openmrs.Patient;
-import org.openmrs.PatientProgram;
-import org.openmrs.PatientState;
-import org.openmrs.Person;
-import org.openmrs.ProgramWorkflowState;
+import org.openmrs.*;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
@@ -30,10 +22,17 @@ import org.openmrs.module.mdrtb.specimen.Specimen;
 public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
 
 	private PatientProgram program;
-	
+
 	public MdrtbPatientProgram() {
+	    //treats MDR-TB as the default TB Program
 		this.program = new PatientProgram();
 		this.program.setProgram(Context.getProgramWorkflowService().getProgramByName(Context.getAdministrationService().getGlobalProperty("mdrtb.program_name")));
+	}
+	
+	public MdrtbPatientProgram(Program program) {
+	    // Allows you to pass the program you want to use
+		this.program = new PatientProgram();
+		this.program.setProgram(program);
 	}
 	
 	public MdrtbPatientProgram(PatientProgram program) {
@@ -198,11 +197,77 @@ public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
 			this.program.getStates().add(previousTreatmentState);	
 		}
 	}
+
+	public ProgramWorkflowState getClassificationAccordingToPatientType() {
+		Concept previousTreatment = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PATIENT_TYPE);
+		return getPatientWorkflowState(previousTreatment);
+	}
+
+    public void setClassificationAccordingToPatientType (ProgramWorkflowState classification) {
+        // first make sure that the program workflow state is valid
+        if (classification != null && !Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToPatientType().contains(classification)) {
+            throw new MdrtbAPIException(classification.toString() + " is not a valid state for Classification According To Patient Type workflow");
+        }
+
+        // if the state hasn't changed, we don't need to bother doing the update
+        ProgramWorkflowState currentClassification = getClassificationAccordingToPatientType();
+        if ( (currentClassification == null && classification == null) || (currentClassification != null && currentClassification.equals(classification)) ){
+            return;
+        }
+
+        // otherwise, do the update
+        Concept patientType = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_PATIENT_TYPE);
+
+        // void any existing states tied to the the outcome workflow
+        voidStates(patientType);
+
+        // now add the new state, if one has been specified
+        if (classification != null) {
+            PatientState previousTypeState= new PatientState();
+            previousTypeState.setState(classification);
+            // the start date for the state should be the program enrollment date
+            previousTypeState.setStartDate(program.getDateEnrolled());
+            this.program.getStates().add(previousTypeState);
+        }
+    }
+
+	public ProgramWorkflowState getClassificationAccordingToTreatmentCategory() {
+		Concept previousTreatment = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_TREATMENT_CATG);
+		return getPatientWorkflowState(previousTreatment);
+	}
+
+    public void setClassificationAccordingToTreatmentCategory (ProgramWorkflowState classification) {
+        // first make sure that the program workflow state is valid
+        if (classification != null && !Context.getService(MdrtbService.class).getPossibleClassificationsAccordingToTreatmentCategory().contains(classification)) {
+            throw new MdrtbAPIException(classification.toString() + " is not a valid state for Classification According To Treatment Category workflow");
+        }
+
+        // if the state hasn't changed, we don't need to bother doing the update
+        ProgramWorkflowState currentClassification = getClassificationAccordingToTreatmentCategory();
+        if ( (currentClassification == null && classification == null) || (currentClassification != null && currentClassification.equals(classification)) ){
+            return;
+        }
+
+        // otherwise, do the update
+        Concept treatmentCategory = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_TREATMENT_CATG);
+
+        // void any existing states tied to the the outcome workflow
+        voidStates(treatmentCategory);
+
+        // now add the new state, if one has been specified
+        if (classification != null) {
+            PatientState previousCategoryState= new PatientState();
+            previousCategoryState.setState(classification);
+            // the start date for the state should be the program enrollment date
+            previousCategoryState.setStartDate(program.getDateEnrolled());
+            this.program.getStates().add(previousCategoryState);
+        }
+    }
 	
 	public ProgramWorkflowState getCurrentHospitalizationState() {
 		Concept hospitalizationWorkflow = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HOSPITALIZATION_WORKFLOW);
 		return getCurrentPatientWorkflowState(hospitalizationWorkflow);
-	} 
+	}
 	
 	public Boolean getCurrentlyHospitalized() {
 		Concept hospitalizationWorkflow = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HOSPITALIZATION_WORKFLOW);

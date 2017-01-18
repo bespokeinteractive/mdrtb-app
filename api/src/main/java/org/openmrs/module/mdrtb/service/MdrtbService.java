@@ -386,12 +386,22 @@ public interface MdrtbService extends OpenmrsService {
      * Returns all possible MDR-TB previous drug use classifications
      */
     public Set<ProgramWorkflowState> getPossibleClassificationsAccordingToPreviousDrugUse();
-    
+
     /**
      * Returns all possible MDR-TB previous treatment classifications
      */
     public Set<ProgramWorkflowState> getPossibleClassificationsAccordingToPreviousTreatment();
-    
+
+    /**
+     * Returns all possible TB patitient Type classifications
+     */
+    public Set<ProgramWorkflowState> getPossibleClassificationsAccordingToPatientType();
+
+    /**
+     * Returns all possible TB patitient Treatment Classifications
+     */
+    public Set<ProgramWorkflowState> getPossibleClassificationsAccordingToTreatmentCategory();
+
 	/**
      * Check to see what color to associate with a given result concept
      */

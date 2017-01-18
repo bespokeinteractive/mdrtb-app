@@ -55,10 +55,13 @@ public class SimpleIntakeFormController extends AbstractFormController {
 	
 	@SuppressWarnings("unchecked")
     @RequestMapping(method = RequestMethod.POST)
-	public ModelAndView processIntakeForm (@ModelAttribute("intake") SimpleIntakeForm intake, BindingResult errors, 
+	public ModelAndView processIntakeForm (@ModelAttribute("intake") SimpleIntakeForm intake,
 	                                       @RequestParam(required = true, value = "patientProgramId") Integer patientProgramId,
-	                                       @RequestParam(required = false, value = "returnUrl") String returnUrl,
-	                                       SessionStatus status, HttpServletRequest request, ModelMap map) {
+										   @RequestParam(required = false, value = "returnUrl") String returnUrl,
+										   HttpServletRequest request,
+										   BindingResult errors,
+										   SessionStatus status,
+										   ModelMap map) {
 
 		// perform validation and check for errors
 		if (intake != null) {

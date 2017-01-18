@@ -108,7 +108,11 @@ public class MdrtbConcepts {
     public final static String [] OTHER = {"OTHER"};
     public final static String [] RELAPSE = {"RELAPSE"};
     public final static String [] TRANSFER = {"TRANSFER"};
-    
+
+    public final static String [] CAT_4_CLASSIFICATION_PATIENT_TYPE = {"CATEGORY 4 TUBERCULOSIS CLASSIFICATION ACCORDING TO TYPE OF PATIENT"};
+    public final static String [] CAT_4_CLASSIFICATION_TREATMENT_CATG = {"CATEGORY 4 TUBERCULOSIS CLASSIFICATION ACCORDING TO TREATMENT CATEGORY"};
+    public final static String [] PEDIATRIC = {"PEDIATRIC PATIENT"};
+
     // TODO: are these still used?
     public final static String [] MDR_TB = {"MULTI-DRUG RESISTANT TUBERCULOSIS"};
     public final static String [] XDR_TB = {"EXTENSIVE DRUG RESISTANT TUBERCULOSIS"};

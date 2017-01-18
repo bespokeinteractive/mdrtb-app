@@ -14,8 +14,7 @@ public class SimpleIntakeForm extends AbstractSimpleForm {
 
 	public SimpleIntakeForm() {
 		super();
-		this.encounter.setEncounterType(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type")));		
-		
+		this.encounter.setEncounterType(Context.getEncounterService().getEncounterType(Context.getAdministrationService().getGlobalProperty("mdrtb.intake_encounter_type")));
 	}
 	
 	public SimpleIntakeForm(Patient patient) {
