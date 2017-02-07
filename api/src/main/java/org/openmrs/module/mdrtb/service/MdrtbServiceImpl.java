@@ -202,8 +202,8 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 		else {
 			PatientProgram program = Context.getProgramWorkflowService().getPatientProgram(patientProgramId);
 			
-			if (program == null || !program.getProgram().equals(getMdrtbProgram())) {
-				throw new MdrtbAPIException(patientProgramId + " does not reference an MDR-TB patient program");
+			if (program == null || !(program.getProgram().equals(getMdrtbProgram()) || program.getProgram().equals(getTbProgram()))) {
+				throw new MdrtbAPIException(patientProgramId + " does not reference an MDR-TB or TB patient program");
 			}
 			
 			else {
@@ -503,8 +503,12 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 		}
 	}
 	
+    public Program getTbProgram() {
+    	return Context.getProgramWorkflowService().getProgramByName(Context.getAdministrationService().getGlobalProperty("tb.program_name"));
+    }
+
     public Program getMdrtbProgram() {
-    	return Context.getProgramWorkflowService().getProgramByName(Context.getAdministrationService().getGlobalProperty("mdrtb.program_name"));
+        return Context.getProgramWorkflowService().getProgramByName(Context.getAdministrationService().getGlobalProperty("mdrtb.program_name"));
     }
 	
    public Collection<Person> getProviders() {
@@ -525,9 +529,21 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 	public Collection<ConceptAnswer> getPossibleSmearResults() {
 		return this.getConcept(MdrtbConcepts.SMEAR_RESULT).getAnswers();
 	}
+
+	public Collection<ConceptAnswer> getPossibleXRayTestResults() {
+		return this.getConcept(MdrtbConcepts.XRAY_RESULTS).getAnswers();
+	}
 	
 	public Collection<ConceptAnswer> getPossibleSmearMethods() {
 		return this.getConcept(MdrtbConcepts.SMEAR_METHOD).getAnswers();
+	}
+
+	public Collection<ConceptAnswer> getPossibleGenXpertResults() {
+		return this.getConcept(MdrtbConcepts.GENXPERT_RESULTS).getAnswers();
+	}
+
+	public Collection<ConceptAnswer> getPossibleHivTestResults() {
+		return this.getConcept(MdrtbConcepts.RESULT_OF_HIV_TEST).getAnswers();
 	}
 	
 	public Collection<ConceptAnswer> getPossibleCultureResults() {
@@ -564,11 +580,18 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 	public Collection<ConceptAnswer> getPossibleSpecimenAppearances() {
 		return this.getConcept(MdrtbConcepts.SPECIMEN_APPEARANCE).getAnswers();
 	}
-	
 	   
     public Collection<ConceptAnswer> getPossibleAnatomicalSites() {
     	return this.getConcept(MdrtbConcepts.ANATOMICAL_SITE_OF_TB).getAnswers();
     }
+
+	public Collection<ConceptAnswer> getPossibleReferringDepartments() {
+		return this.getConcept(MdrtbConcepts.REFERRED_BY).getAnswers();
+	}
+
+	public Collection<ConceptAnswer> getPossibleDirectObservers() {
+		return this.getConcept(MdrtbConcepts.DOTS_BY).getAnswers();
+	}
     
     /**
      * @return the List of Concepts that represent the Drugs within the passed Drug Set
@@ -600,6 +623,11 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     public List<Concept> getAntiretrovirals() {
     	return getDrugsInSet(MdrtbConcepts.ANTIRETROVIRALS);
     }
+
+	public Set<ProgramWorkflowState> getPossibleTbProgramOutcomes() {
+		Program program = Context.getProgramWorkflowService().getProgramByName(Context.getAdministrationService().getGlobalProperty("tb.program_name"));
+		return getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_TB_TX_OUTCOME), program);
+	}
     
     public Set<ProgramWorkflowState> getPossibleMdrtbProgramOutcomes() {
     	return getPossibleWorkflowStates(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDR_TB_TX_OUTCOME));

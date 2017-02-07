@@ -8,6 +8,7 @@ public class MdrtbConcepts {
 	
 	// Vitals 
 	public final static String [] WEIGHT = {"WEIGHT"};
+	public final static String [] HEIGHT = {"HEIGHT"};
 	public final static String [] PULSE = {"PULSE"};
 	public final static String [] TEMPERATURE = {"TEMPERATURE"};
 	public final static String [] RESPIRATORY_RATE = {"RESPIRATORY RATE"};
@@ -176,5 +177,30 @@ public class MdrtbConcepts {
     
     // Legacy (only used by migration controller)
     public final static String [] CULTURE_STATUS = {"MULTI-DRUG RESISTANT TUBERCULOSIS CULTURE STATUS"};
+
+    // New Concepts used for MDRTBdashboardApp Intake Form
+    public final static String [] REFERRED_BY = {"REFERRING DEPARTMENT"};
+    public final static String [] DOTS_BY = {"DOT BY"};
+    public final static String [] BMI = {"BODY MASS INDEX"};
+    public final static String [] MUAC = {"MID-UPPER ARM CIRCUMFERENCE"};
+    public final static String [] HEALTH_FACILITY = {"HEALTH FACILITY"};
+    public final static String [] TREATMENT_SUPPORTER = {"TREATMENT SUPPORTER"};
+
+    public final static String [] SPUTUM_SMEAR_EXAM = {"SPUTUM SMEAR EXAMINATION"};
+    public final static String [] GENXPERT_EXAM = {"GENXPERT EXAMINATION"};
+    public final static String [] HIV_EXAM = {"HIV EXAMINATION"};
+    public final static String [] XRAY_EXAM = {"X-RAY EXAMINATION"};
+
+    public final static String [] LAB_TEST_SERIAL_NUMBER = {"LAB TEST SERIAL NUMBER"};
+    public final static String [] GENXPERT_RESULTS = {"GENXPERT RESULTS"};
+    public final static String [] GENXPERT_DATE = {"DATE OF GENXPERT EXAMINATION"};
+    public final static String [] XRAY_RESULTS = {"X-RAY RESULTS"};
+    public final static String [] XRAY_DATE = {"DATE OF X-RAY EXAMINATION"};
+    public final static String [] HIV_EXAM_DATE = {"DATE OF HIV EXAMINATION"};
+
+    public final static String [] ART_STARTED = {"STARTED ON ART"};
+    public final static String [] CPT_STARTED = {"STARTED ON CPT"};
+    public final static String [] ART_STARTED_ON = {"ART START DATE"};
+    public final static String [] CPT_STARTED_ON = {"CPT START DATE"};
 
 }

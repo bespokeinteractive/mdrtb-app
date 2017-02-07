@@ -308,6 +308,24 @@ public interface MdrtbService extends OpenmrsService {
      */
     @Transactional(readOnly=true)
     public Collection<ConceptAnswer> getPossibleSmearMethods();
+
+    /**
+     * Returns all the concepts that are possible coded answers for the GenXpert concept
+     */
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleGenXpertResults();
+
+    /**
+     * Returns all the concepts that are possible coded answers for the HIV Test concept
+     */
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleHivTestResults();
+
+    /**
+     * Returns all the concepts that are possible coded answers for the XRAY Test concept
+     */
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleXRayTestResults();
     
     /**
      * Returns all the concepts that are possible coded answers for the Tuberculosis Culture Test Result
@@ -356,6 +374,18 @@ public interface MdrtbService extends OpenmrsService {
      */
     @Transactional(readOnly=true)
     public Collection<ConceptAnswer> getPossibleAnatomicalSites();
+
+    /**
+     * Returns all possible Referring Departments
+     */
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleReferringDepartments();
+
+    /**
+     * Returns all possible Directly Observer for DOTS
+     */
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleDirectObservers();
     
     /**
      * @return all of the Drugs within the ConceptSets which match the conceptMapKeys
@@ -371,17 +401,19 @@ public interface MdrtbService extends OpenmrsService {
      * Returns all the possible drugs to display in a DST result, in the order we want to display them
      */
     public List<Concept> getMdrtbDrugs();
-    
+
     /**
      * Returns all the possible antiretrovirals
      */
     public List<Concept> getAntiretrovirals();
-    
+
     /**
-     * Returns all possible outcomes for the MDR-TB program
+     * Returns all possible outcomes for the TB program & MDR-TB program
      */
+    public Set<ProgramWorkflowState> getPossibleTbProgramOutcomes();
+
     public Set<ProgramWorkflowState> getPossibleMdrtbProgramOutcomes();
-    
+
     /**
      * Returns all possible MDR-TB previous drug use classifications
      */

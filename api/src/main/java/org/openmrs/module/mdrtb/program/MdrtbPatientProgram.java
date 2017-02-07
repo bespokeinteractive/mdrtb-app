@@ -1,11 +1,9 @@
 package org.openmrs.module.mdrtb.program;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
+import java.text.DateFormat;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import org.openmrs.*;
 import org.openmrs.api.context.Context;
@@ -156,13 +154,7 @@ public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
 		voidStates(previousDrug);
 		
 		// now add the new state, if one has been specified
-		if (classification != null) {
-			PatientState previousDrugState = new PatientState();
-			previousDrugState.setState(classification);
-			// the start date for the state should be the program enrollment date
-			previousDrugState.setStartDate(program.getDateEnrolled()); 
-			this.program.getStates().add(previousDrugState);	
-		}
+		initializeClassifications(classification);
 	}
 	
 	public ProgramWorkflowState getClassificationAccordingToPreviousTreatment() {		
@@ -189,12 +181,17 @@ public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
 		voidStates(previousTreatment);
 		
 		// now add the new state, if one has been specified
+		initializeClassifications(classification);
+	}
+
+	private void initializeClassifications(ProgramWorkflowState classification) {
 		if (classification != null) {
 			PatientState previousTreatmentState = new PatientState();
 			previousTreatmentState.setState(classification);
+
 			// the start date for the state should be the program enrollment date
-			previousTreatmentState.setStartDate(program.getDateEnrolled()); 
-			this.program.getStates().add(previousTreatmentState);	
+			previousTreatmentState.setStartDate(program.getDateEnrolled());
+			this.program.getStates().add(previousTreatmentState);
 		}
 	}
 
@@ -222,14 +219,8 @@ public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
         voidStates(patientType);
 
         // now add the new state, if one has been specified
-        if (classification != null) {
-            PatientState previousTypeState= new PatientState();
-            previousTypeState.setState(classification);
-            // the start date for the state should be the program enrollment date
-            previousTypeState.setStartDate(program.getDateEnrolled());
-            this.program.getStates().add(previousTypeState);
-        }
-    }
+		initializeClassifications(classification);
+	}
 
 	public ProgramWorkflowState getClassificationAccordingToTreatmentCategory() {
 		Concept previousTreatment = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CAT_4_CLASSIFICATION_TREATMENT_CATG);
@@ -255,14 +246,8 @@ public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
         voidStates(treatmentCategory);
 
         // now add the new state, if one has been specified
-        if (classification != null) {
-            PatientState previousCategoryState= new PatientState();
-            previousCategoryState.setState(classification);
-            // the start date for the state should be the program enrollment date
-            previousCategoryState.setStartDate(program.getDateEnrolled());
-            this.program.getStates().add(previousCategoryState);
-        }
-    }
+		initializeClassifications(classification);
+	}
 	
 	public ProgramWorkflowState getCurrentHospitalizationState() {
 		Concept hospitalizationWorkflow = Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HOSPITALIZATION_WORKFLOW);
@@ -381,8 +366,125 @@ public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
 		else {
 			return null;
 		}
-	}	
-	
+	}
+
+    public String getInitialLabNumberDuringProgram() {
+        if (program.getDateEnrolled() == null) {
+            return null;
+        }
+
+        Concept [] labNumberConcept = {Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.LAB_TEST_SERIAL_NUMBER)};
+        Person [] person = {program.getPatient()};
+
+        List<Obs> labNumbers = Context.getObsService().getObservations(Arrays.asList(person), null, Arrays.asList(labNumberConcept), null, null, null, null, null, null,
+                getPreviousProgramDateCompleted(), (!isMostRecentProgram() ?  program.getDateCompleted(): new Date()), false);
+
+        if (labNumbers.size() > 0) {
+            return labNumbers.get(labNumbers.size()-1).getValueText();
+        }
+        else {
+            return null;
+        }
+    }
+
+    public Concept getInitialTestResultsDuringProgram(String... conceptMapping){
+        if (program.getDateEnrolled() == null) {
+            return null;
+        }
+
+        Concept [] concepts = {Context.getService(MdrtbService.class).getConcept(conceptMapping)};
+        Person [] person = {program.getPatient()};
+
+        List<Obs> results = Context.getObsService().getObservations(Arrays.asList(person), null, Arrays.asList(concepts), null, null, null, null, null, null,
+                getPreviousProgramDateCompleted(), (!isMostRecentProgram() ?  program.getDateCompleted(): new Date()), false);
+
+        if (results.size() > 0) {
+            return results.get(results.size()-1).getValueCoded();
+        }
+        else {
+            return null;
+        }
+    }
+
+    public Date getInitialTestDatesDuringProgram(String... conceptMapping){
+        if (program.getDateEnrolled() == null) {
+            return null;
+        }
+
+        Concept [] concepts = {Context.getService(MdrtbService.class).getConcept(conceptMapping)};
+        Person [] person = {program.getPatient()};
+
+        List<Obs> dates = Context.getObsService().getObservations(Arrays.asList(person), null, Arrays.asList(concepts), null, null, null, null, null, null,
+                getPreviousProgramDateCompleted(), (!isMostRecentProgram() ?  program.getDateCompleted(): new Date()), false);
+
+        if (dates.size() > 0) {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            return df.parse(dates.get(dates.size()-1).getValueText(), new ParsePosition(0));
+        }
+        else {
+            return null;
+        }
+    }
+
+    public Obs getInitialObsDuringProgram(String... conceptMapping){
+        if (program.getDateEnrolled() == null) {
+            return null;
+        }
+
+        Concept [] concepts = {Context.getService(MdrtbService.class).getConcept(conceptMapping)};
+        Person [] person = {program.getPatient()};
+
+        List<Obs> results = Context.getObsService().getObservations(Arrays.asList(person), null, Arrays.asList(concepts), null, null, null, null, null, null,
+                getPreviousProgramDateCompleted(), (!isMostRecentProgram() ?  program.getDateCompleted(): new Date()), false);
+
+        if (results.size() > 0) {
+            return results.get(results.size()-1);
+        }
+        else {
+            return null;
+        }
+    }
+
+    public Concept getInitialSputumSmearResultDuringProgram() {
+        return getInitialTestResultsDuringProgram(MdrtbConcepts.SMEAR_RESULT);
+    }
+
+    public Date getInitialSputumSmearDateDuringProgram() {
+        return getInitialTestDatesDuringProgram(MdrtbConcepts.SPUTUM_COLLECTION_DATE);
+    }
+
+    public Concept getInitialGenXpertResultDuringProgram() {
+        return getInitialTestResultsDuringProgram(MdrtbConcepts.GENXPERT_RESULTS);
+    }
+
+	public Date getInitialGenXpertDateDuringProgram() {
+        return getInitialTestDatesDuringProgram(MdrtbConcepts.GENXPERT_DATE);
+	}
+
+    public Concept getInitialXrayResultDuringProgram() {
+        return getInitialTestResultsDuringProgram(MdrtbConcepts.XRAY_RESULTS);
+    }
+
+    public Date getInitialXrayDateDuringProgram() {
+        return getInitialTestDatesDuringProgram(MdrtbConcepts.XRAY_DATE);
+    }
+
+    public Concept getInitialHivTestResultDuringProgram() {
+        return getInitialTestResultsDuringProgram(MdrtbConcepts.RESULT_OF_HIV_TEST);
+    }
+
+    public Date getInitialHivTestDateDuringProgram() {
+        return getInitialTestDatesDuringProgram(MdrtbConcepts.HIV_EXAM_DATE);
+    }
+
+    public Obs getInitialHeightObsDuringProgram(){
+        return  getInitialObsDuringProgram(MdrtbConcepts.HEIGHT);
+    }
+
+    public Obs getInitialWeightObsDuringProgram(){
+        return  getInitialObsDuringProgram(MdrtbConcepts.WEIGHT);
+    }
+
 	public Date getTreatmentStartDateDuringProgram() {
 		Date startDate = null;
 		List<Regimen> regimens = getMdrtbRegimensDuringProgram();
@@ -397,7 +499,6 @@ public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
 			if (previousProgramDateCompleted != null && startDate.before(previousProgramDateCompleted)) {
 				startDate = null;
 			}
-		
 		}
 		
 		// if no regimens, this will return null for a treatment start date	
