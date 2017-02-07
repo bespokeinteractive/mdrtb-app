@@ -203,6 +203,23 @@ public abstract class AbstractSimpleForm implements SimpleForm {
         updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.TEST_START_DATE), this.encounter, date);
     }
 
+	public String getSecondLineRegistrationDate() {
+		return fetchObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDRTB_REGISTRATION_DATE), this.encounter);
+	}
+
+	public void setSecondLineRegistrationDate(String date) {
+		updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDRTB_REGISTRATION_DATE), this.encounter, date);
+	}
+
+
+	public String getSecondLineRegistrationNumber() {
+		return fetchObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDRTB_REGISTRATION_NUMBER), this.encounter);
+	}
+
+	public void setSecondLineRegistrationNumber(String number) {
+		updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDRTB_REGISTRATION_NUMBER), this.encounter, number);
+	}
+
     public void setPatientStartedOnArt(String started, String startedOn) {
         updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ART_STARTED), this.encounter, started);
         updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.ART_STARTED_ON), this.encounter, startedOn);

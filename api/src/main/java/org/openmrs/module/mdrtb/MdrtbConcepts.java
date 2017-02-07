@@ -203,4 +203,7 @@ public class MdrtbConcepts {
     public final static String [] ART_STARTED_ON = {"ART START DATE"};
     public final static String [] CPT_STARTED_ON = {"CPT START DATE"};
 
+    public final static String [] MDRTB_REGISTRATION_NUMBER = {"MDRTB SECOND-LINE REGISTATION NUMBER"};
+    public final static String [] MDRTB_REGISTRATION_DATE = {"MDRTB SECOND-LINE REGISTATION DATE"};
+
 }
