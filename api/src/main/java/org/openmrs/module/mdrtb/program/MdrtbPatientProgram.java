@@ -485,6 +485,10 @@ public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
         return  getInitialObsDuringProgram(MdrtbConcepts.WEIGHT);
     }
 
+    public String getInitialSecondLineNumberDuringProgram(){
+        return  getInitialObsDuringProgram(MdrtbConcepts.MDRTB_REGISTRATION_NUMBER).getValueText().toUpperCase();
+    }
+
 	public Date getTreatmentStartDateDuringProgram() {
 		Date startDate = null;
 		List<Regimen> regimens = getMdrtbRegimensDuringProgram();
