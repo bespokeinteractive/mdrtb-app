@@ -208,7 +208,9 @@ public abstract class AbstractSimpleForm implements SimpleForm {
 	}
 
 	public void setSecondLineRegistrationDate(String date) {
-		updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDRTB_REGISTRATION_DATE), this.encounter, date);
+	    if (StringUtils.isNotEmpty(date)){
+            updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDRTB_REGISTRATION_DATE), this.encounter, date);
+        }
 	}
 
 
@@ -232,35 +234,43 @@ public abstract class AbstractSimpleForm implements SimpleForm {
 
     public void setSputumSmear(String date, String labNumber, String result){
         Obs obs =  new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SPUTUM_SMEAR_EXAM), encounter.getEncounterDatetime(), encounter.getLocation());
-		encounter.addObs(obs);
-
-        updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SPUTUM_COLLECTION_DATE), this.encounter, date, obs);
-        updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SMEAR_RESULT), this.encounter, result, obs);
+        encounter.addObs(obs);
         updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.LAB_TEST_SERIAL_NUMBER), this.encounter, labNumber, obs);
+
+        if (StringUtils.isNotEmpty(date) && StringUtils.isNotEmpty(result)){
+            updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SPUTUM_COLLECTION_DATE), this.encounter, date, obs);
+            updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.SMEAR_RESULT), this.encounter, result, obs);
+        }
 	}
 
 	public void setGenXpert(String date, String result){
-		Obs obs =  new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.GENXPERT_EXAM), encounter.getEncounterDatetime(), encounter.getLocation());
-		encounter.addObs(obs);
+	    if (StringUtils.isNotEmpty(date) && StringUtils.isNotEmpty(result)){
+            Obs obs =  new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.GENXPERT_EXAM), encounter.getEncounterDatetime(), encounter.getLocation());
+            encounter.addObs(obs);
 
-		updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.GENXPERT_RESULTS), this.encounter, result, obs);
-		updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.GENXPERT_DATE), this.encounter, date, obs);
+            updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.GENXPERT_RESULTS), this.encounter, result, obs);
+            updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.GENXPERT_DATE), this.encounter, date, obs);
+        }
 	}
 
 	public void setHivResults(String date, String result){
-		Obs obs =  new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HIV_EXAM), encounter.getEncounterDatetime(), encounter.getLocation());
-		encounter.addObs(obs);
+	    if (StringUtils.isNotEmpty(date) && StringUtils.isNotEmpty(result)){
+            Obs obs =  new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HIV_EXAM), encounter.getEncounterDatetime(), encounter.getLocation());
+            encounter.addObs(obs);
 
-		updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RESULT_OF_HIV_TEST), this.encounter, result, obs);
-		updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HIV_EXAM_DATE), this.encounter, date, obs);
+            updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.RESULT_OF_HIV_TEST), this.encounter, result, obs);
+            updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HIV_EXAM_DATE), this.encounter, date, obs);
+        }
 	}
 
 	public void setXrayResults(String date, String result){
-		Obs obs =  new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.XRAY_EXAM), encounter.getEncounterDatetime(), encounter.getLocation());
-		encounter.addObs(obs);
+        if (StringUtils.isNotEmpty(date) && StringUtils.isNotEmpty(result)){
+            Obs obs =  new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.XRAY_EXAM), encounter.getEncounterDatetime(), encounter.getLocation());
+            encounter.addObs(obs);
 
-		updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.XRAY_RESULTS), this.encounter, result, obs);
-		updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.XRAY_DATE), this.encounter, date, obs);
+            updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.XRAY_RESULTS), this.encounter, result, obs);
+            updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.XRAY_DATE), this.encounter, date, obs);
+        }
 	}
 	
 	/**
