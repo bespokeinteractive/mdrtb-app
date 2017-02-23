@@ -163,6 +163,14 @@ public abstract class AbstractSimpleForm implements SimpleForm {
 		updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CLINICIAN_NOTES), this.encounter, comments);
 	}
 
+	public String getLabNumber() {
+		return fetchObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.LAB_TEST_SERIAL_NUMBER), this.encounter);
+	}
+
+	public void getLabNumber(String number) {
+		updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.LAB_TEST_SERIAL_NUMBER), this.encounter, number);
+	}
+
 	public String getHealthFacility() {
         return fetchObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.HEALTH_FACILITY), this.encounter);
     }
