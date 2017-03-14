@@ -190,6 +190,8 @@ public class MdrtbConcepts {
     public final static String [] GENXPERT_EXAM = {"GENXPERT EXAMINATION"};
     public final static String [] HIV_EXAM = {"HIV EXAMINATION"};
     public final static String [] XRAY_EXAM = {"X-RAY EXAMINATION"};
+    public final static String [] CULTURE_EXAM = {"CULTURE EXAMINATION"};
+    public final static String [] CULTURE_DATE = {"DATE OF CULTURE EXAMINATION"};
 
     public final static String [] LAB_TEST_SERIAL_NUMBER = {"LAB TEST SERIAL NUMBER"};
     public final static String [] GENXPERT_RESULTS = {"GENXPERT RESULTS"};

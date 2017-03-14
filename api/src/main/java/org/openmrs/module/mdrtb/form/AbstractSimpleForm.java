@@ -280,6 +280,16 @@ public abstract class AbstractSimpleForm implements SimpleForm {
             updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.XRAY_DATE), this.encounter, date, obs);
         }
 	}
+
+	public void setCultureResults(String date, String result){
+		if (StringUtils.isNotEmpty(date) && StringUtils.isNotEmpty(result)){
+			Obs obs =  new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CULTURE_EXAM), encounter.getEncounterDatetime(), encounter.getLocation());
+			encounter.addObs(obs);
+
+			updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CULTURE_RESULT), this.encounter, result, obs);
+			updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CULTURE_DATE), this.encounter, date, obs);
+		}
+	}
 	
 	/**
 	 * Utility method that fetches the obs off the encounter that is associated with the specified concept
