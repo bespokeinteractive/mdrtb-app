@@ -1,6 +1,7 @@
 package org.openmrs.module.mdrtb.form;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.Concept;
@@ -13,6 +14,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.service.MdrtbService;
+import org.openmrs.module.mdrtb.util.MdrtbDrugResultsModel;
 
 
 public abstract class AbstractSimpleForm implements SimpleForm {
@@ -290,6 +292,19 @@ public abstract class AbstractSimpleForm implements SimpleForm {
 			updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.CULTURE_DATE), this.encounter, date, obs);
 		}
 	}
+
+	public void setDrugSusceptibilityTests(String date, List<MdrtbDrugResultsModel> results){
+		if (results.size() > 0){
+            Obs obs =  new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DST_EXAM), encounter.getEncounterDatetime(), encounter.getLocation());
+            encounter.addObs(obs);
+
+            updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DST_DATE), this.encounter, date, obs);
+
+            for (MdrtbDrugResultsModel rm : results){
+                updateObs(rm.getDrug(), this.encounter, rm.getResult(), obs);
+            }
+        }
+	}
 	
 	/**
 	 * Utility method that fetches the obs off the encounter that is associated with the specified concept
@@ -354,7 +369,13 @@ public abstract class AbstractSimpleForm implements SimpleForm {
 
         setResultDatatype(concept, value, obs);
         encounter.addObs(obs);
+    }
 
+    private void updateObs(Concept concept, Encounter encounter, Concept value, Obs obsgroup) {
+        Obs obs = new Obs (encounter.getPatient(), concept, encounter.getEncounterDatetime(), encounter.getLocation());
+        obs.setObsGroup(obsgroup);
+        obs.setValueCoded(value);
+        encounter.addObs(obs);
     }
 
     private void setResultDatatype(Concept concept, String value, Obs obs) {

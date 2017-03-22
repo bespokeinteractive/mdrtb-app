@@ -401,6 +401,7 @@ public interface MdrtbService extends OpenmrsService {
      * Returns all the possible drugs to display in a DST result, in the order we want to display them
      */
     public List<Concept> getMdrtbDrugs();
+    public List<Concept> getDstDrugs();
 
     /**
      * Returns all the possible antiretrovirals

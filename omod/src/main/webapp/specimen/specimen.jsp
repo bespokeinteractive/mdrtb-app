@@ -67,10 +67,10 @@
 
 	function showAddDstResultsWithData() {
 		for (var i = 1; i < 31; i++) {
-			if ($j('#addDstResult${testId}_' + i).find('.dstResult').val() != ''
-				|| $j('#addDstResult${testId}_' + i).find('select').val() != '') {
+			if ($j('#addDstResult${testDate}_' + i).find('.dstResult').val() != ''
+				|| $j('#addDstResult${testDate}_' + i).find('select').val() != '') {
 
-				$j('#addDstResult${testId}_' + i).show();
+				$j('#addDstResult${testDate}_' + i).show();
 				addDstResultCounter = i + 1;
 			}
 		}
@@ -89,13 +89,13 @@
 		}
 		else if (${fn:length(testErrors.allErrors) > 0}) {
 			// switch to edit test if we are here because of a test validation error
-			if(${! empty testId}) {
+			if(${! empty testDate}) {
 				// handle the "edit" case
 				hideLinks();
-				$j('#details_${testId}').hide();  // hide the selected details box
-				$j('#edit_${testId}').show(); // show the selected edit box
+				$j('#details_${testDate}').hide();  // hide the selected details box
+				$j('#edit_${testDate}').show(); // show the selected edit box
 				showAddDstResultsWithData(); // show any dst result rows that may have transitory data
-				$j(document).scrollTop($j('#edit_${testId}').offset().top - 50); // jump to the edit box that has the error
+				$j(document).scrollTop($j('#edit_${testDate}').offset().top - 50); // jump to the edit box that has the error
 			} 
 			else {
 				// handle the "add" case
@@ -110,7 +110,7 @@
 			// show the proper detail windows if it has been specified
 			// TODO: this does not work when a test is saved as the test id of a test gets changes whenever it is saved since
 			// all the obs get voided and recreated;
-			$j('#details_${testId}').show();
+			$j('#details_${testDate}').show();
 		}
 		
 		// event handlers to hide and show specimen edit box
@@ -393,7 +393,7 @@
 
 <div id="edit_specimen"  style="display:none;margin:0px">
 
-<form id="specimen" action="specimen.form?submissionType=specimen&specimenId=${specimen.id}&patientProgramId=${patientProgramId}&testId=-1" method="post" enctype="multipart/form-data">
+<form id="specimen" action="specimen.form?submissionType=specimen&specimenId=${specimen.id}&patientProgramId=${patientProgramId}&testDate=-1" method="post" enctype="multipart/form-data">
 
 <!--  DISPLAY ANY ERROR MESSAGES -->
 <c:if test="${fn:length(specimenErrors.allErrors) > 0}">
@@ -531,7 +531,7 @@
 
 <div align="center" id="details_${test.id}" class="detailBox">
 
-<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.${test.testType}"/><c:if test="${!empty test.accessionNumber}"> (${test.accessionNumber}) </c:if><span style="position: absolute; right:30px;"><a id="${test.id}" class="edit" onmouseover="document.body.style.cursor='pointer'" onmouseout="document.body.style.cursor='default'"><spring:message code="mdrtb.edit" text="edit"/></a>&nbsp;&nbsp;<a href="delete.form?testId=${test.id}&specimenId=${specimen.id}&patientProgramId=${patientProgramId}" class="delete" onclick="return confirm('<spring:message code="mdrtb.confirmDeleteTest" text="Are you sure you want to delete this test?"/>')"><spring:message code="mdrtb.delete" text="delete"/></a></span></b>
+<b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.${test.testType}"/><c:if test="${!empty test.accessionNumber}"> (${test.accessionNumber}) </c:if><span style="position: absolute; right:30px;"><a id="${test.id}" class="edit" onmouseover="document.body.style.cursor='pointer'" onmouseout="document.body.style.cursor='default'"><spring:message code="mdrtb.edit" text="edit"/></a>&nbsp;&nbsp;<a href="delete.form?testDate=${test.id}&specimenId=${specimen.id}&patientProgramId=${patientProgramId}" class="delete" onclick="return confirm('<spring:message code="mdrtb.confirmDeleteTest" text="Are you sure you want to delete this test?"/>')"><spring:message code="mdrtb.delete" text="delete"/></a></span></b>
 <div class="box" style="margin:0px">
 <table cellpadding="0">
 <tr>
@@ -656,7 +656,7 @@
 
 <div align="center" id="edit_${test.id}" class="editBox" style="display:none">
 
-<form id="${test.testType}" action="specimen.form?submissionType=${test.testType}&${test.testType}Id=${test.id}&testId=${test.id}&specimenId=${specimen.id}&patientProgramId=${patientProgramId}" method="post">
+<form id="${test.testType}" action="specimen.form?submissionType=${test.testType}&${test.testType}Id=${test.id}&testDate=${test.id}&specimenId=${specimen.id}&patientProgramId=${patientProgramId}" method="post">
 
 <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.${test.testType}"/><c:if test="${!empty test.accessionNumber}"> (${test.accessionNumber}) </c:if></b>
 <div class="box" style="margin:0px">
@@ -870,7 +870,7 @@
 
 <div align="center" id="add_${type}" class="addBox" style="display:none">
 
-<form id="${type}" action="specimen.form?submissionType=${type}&${type}Id=-1&testId=-1&specimenId=${specimen.id}&patientProgramId=${patientProgramId}" method="post">
+<form id="${type}" action="specimen.form?submissionType=${type}&${type}Id=-1&testDate=-1&specimenId=${specimen.id}&patientProgramId=${patientProgramId}" method="post">
 
 <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.${type}"/>: <spring:message code="mdrtb.add" text="Add"/></b>
 <div class="box" style="margin:0px">

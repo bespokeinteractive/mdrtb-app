@@ -619,6 +619,10 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     public List<Concept> getMdrtbDrugs() {
     	return getDrugsInSet(MdrtbConcepts.TUBERCULOSIS_DRUGS);
     }
+
+	public List<Concept> getDstDrugs() {
+		return getDrugsInSet(MdrtbConcepts.DST_DRUGS);
+	}
     
     public List<Concept> getAntiretrovirals() {
     	return getDrugsInSet(MdrtbConcepts.ANTIRETROVIRALS);
