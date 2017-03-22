@@ -6,7 +6,7 @@ import org.openmrs.Concept;
  * Created by Dennis Henry
  * Created on 3/22/2017.
  */
-public class MdrtbDrugResultsModel {
+public class DrugSensitivityModel {
     private Concept drug;
     private Concept result;
 

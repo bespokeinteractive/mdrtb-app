@@ -14,7 +14,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.mdrtb.MdrtbConcepts;
 import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.service.MdrtbService;
-import org.openmrs.module.mdrtb.util.MdrtbDrugResultsModel;
+import org.openmrs.module.mdrtb.util.DrugSensitivityModel;
 
 
 public abstract class AbstractSimpleForm implements SimpleForm {
@@ -293,14 +293,14 @@ public abstract class AbstractSimpleForm implements SimpleForm {
 		}
 	}
 
-	public void setDrugSusceptibilityTests(String date, List<MdrtbDrugResultsModel> results){
+	public void setDrugSusceptibilityTests(String date, List<DrugSensitivityModel> results){
 		if (results.size() > 0){
             Obs obs =  new Obs (encounter.getPatient(), Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DST_EXAM), encounter.getEncounterDatetime(), encounter.getLocation());
             encounter.addObs(obs);
 
             updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.DST_DATE), this.encounter, date, obs);
 
-            for (MdrtbDrugResultsModel rm : results){
+            for (DrugSensitivityModel rm : results){
                 updateObs(rm.getDrug(), this.encounter, rm.getResult(), obs);
             }
         }
