@@ -27,4 +27,23 @@
 	</diff>
 	-->
 
+	<diff>
+		<version>2.0.1</version>
+		<author>Dennis Henry</author>
+		<date>Mar 28th 2017</date>
+		<description>
+			Create user_location table for Allocating user Location Access
+		</description>
+		<sql>
+			CREATE TABLE IF NOT EXISTS user_location (
+				user_id INT NOT NULL, 
+				location_id INT(11) NOT NULL,
+				INDEX fk_user_location_user_idx (user_id ASC),
+				INDEX fk_user_location_location_idx (location_id ASC),
+				CONSTRAINT fk_user_location_user1 	  FOREIGN KEY (user_id)		REFERENCES users (user_id) 		  ON DELETE NO ACTION ON UPDATE NO ACTION,
+				CONSTRAINT fk_user_location_location1 FOREIGN KEY (location_id)	REFERENCES location (location_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+			);
+		</sql>
+	</diff>
+
 </sqldiff>
