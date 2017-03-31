@@ -38,6 +38,7 @@ import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.comparator.PatientProgramComparator;
 import org.openmrs.module.mdrtb.comparator.PersonByNameComparator;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
+import org.openmrs.module.mdrtb.model.UserLocation;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.service.db.MdrtbDAO;
 import org.openmrs.module.mdrtb.specimen.Culture;
@@ -708,17 +709,17 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 		}
 		return null;
 	}
-    
-    
+
+
     private Map<Integer,String> loadCache(String mapAsString) {
     	Map<Integer,String> map = new HashMap<Integer,String>();
-    	
-    	if(StringUtils.isNotBlank(mapAsString)) {    	
+
+    	if(StringUtils.isNotBlank(mapAsString)) {
     		for(String mapping : mapAsString.split("\\|")) {
     			String[] mappingFields = mapping.split(":");
-    			
+
     			Integer conceptId = null;
-    			
+
     			// if this is a mapping code, need to convert it to the concept id
     			if(!MdrtbUtil.isInteger(mappingFields[0])) {
     				Concept concept = getConcept(mappingFields[0]);
@@ -733,7 +734,7 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     			else {
     				conceptId = Integer.valueOf(mappingFields[0]);
     			}
-    			
+
     			map.put(conceptId, mappingFields[1]);
     		}
     	}
@@ -741,7 +742,15 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     		// TODO: make this error catching a little more elegant?
     		throw new RuntimeException("Unable to load cache, cache string is null. Is required global property missing?");
     	}
-    	
+
     	return map;
     }
+
+	public List<UserLocation> getUserLocations(){
+		return dao.getUserLocations(Context.getAuthenticatedUser());
+	}
+
+	public List<UserLocation> getUserLocations(User user){
+        return dao.getUserLocations(user);
+	}
 }

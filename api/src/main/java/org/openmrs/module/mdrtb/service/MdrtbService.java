@@ -5,16 +5,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import org.openmrs.Concept;
-import org.openmrs.ConceptAnswer;
-import org.openmrs.Encounter;
-import org.openmrs.Location;
-import org.openmrs.Obs;
-import org.openmrs.Patient;
-import org.openmrs.Person;
-import org.openmrs.Program;
-import org.openmrs.ProgramWorkflowState;
+import org.openmrs.*;
 import org.openmrs.api.OpenmrsService;
+import org.openmrs.module.mdrtb.model.UserLocation;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.specimen.Culture;
 import org.openmrs.module.mdrtb.specimen.Dst;
@@ -444,6 +437,9 @@ public interface MdrtbService extends OpenmrsService {
      * Resets the color map cache to null to force cache reload
      */
     public void resetColorMapCache();
-    
+
+    public List<UserLocation> getUserLocations();
+
+    public List<UserLocation> getUserLocations(User user);
 }
 
