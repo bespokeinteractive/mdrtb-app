@@ -1,15 +1,6 @@
 package org.openmrs.module.mdrtb.service;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -747,10 +738,38 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     }
 
 	public List<UserLocation> getUserLocations(){
-		return dao.getUserLocations(Context.getAuthenticatedUser());
+		return getUserLocations(Context.getAuthenticatedUser());
 	}
 
 	public List<UserLocation> getUserLocations(User user){
         return dao.getUserLocations(user);
 	}
+
+    public String getUserLocationsAsString(){
+	    return getUserLocationsAsString(Context.getAuthenticatedUser());
+    }
+
+    public String getUserLocationsAsString(User user){
+        return dao.getUserLocationsAsString(user);
+    }
+
+    public UserLocation getUserLocations(Location location){
+	    return getUserLocations(Context.getAuthenticatedUser(), location);
+    }
+
+    public UserLocation getUserLocations(User user, Location location){
+        return dao.getUserLocations(user, location);
+    }
+
+    public List<Location> getLocationsByUser(User user){
+        return dao.getLocationsByUser(user);
+    }
+
+	public List<Location> getLocationsByUser(){
+	    return getLocationsByUser(Context.getAuthenticatedUser());
+    }
+
+    public void setUserLocations(User user, List<Location> locations){
+        dao.setUserLocations(user, locations);
+    }
 }

@@ -16,6 +16,8 @@ import org.openmrs.module.mdrtb.specimen.Smear;
 import org.openmrs.module.mdrtb.specimen.Specimen;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.plaf.PanelUI;
+
 
 public interface MdrtbService extends OpenmrsService {
 
@@ -441,5 +443,20 @@ public interface MdrtbService extends OpenmrsService {
     public List<UserLocation> getUserLocations();
 
     public List<UserLocation> getUserLocations(User user);
+
+    public String getUserLocationsAsString();
+
+    public String getUserLocationsAsString(User user);
+
+    public UserLocation getUserLocations(Location location);
+
+    public UserLocation getUserLocations(User user, Location location);
+
+    public List<Location> getLocationsByUser();
+
+    public List<Location> getLocationsByUser(User user);
+
+    @Transactional
+    public void setUserLocations(User user, List<Location> locations);
 }
 

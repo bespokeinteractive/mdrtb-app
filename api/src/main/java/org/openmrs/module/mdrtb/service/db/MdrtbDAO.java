@@ -15,4 +15,12 @@ public interface MdrtbDAO {
     public List<Location> getLocationsWithAnyProgramEnrollments() throws DAOException;
 
     public List<UserLocation> getUserLocations(User user);
+
+    public UserLocation getUserLocations(User user, Location location);
+
+    public String getUserLocationsAsString(User user);
+
+    public List<Location> getLocationsByUser(User user);
+
+    public void setUserLocations(User user, List<Location> locations);
 }
