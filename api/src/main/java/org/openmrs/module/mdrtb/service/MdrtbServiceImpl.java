@@ -29,6 +29,7 @@ import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.comparator.PatientProgramComparator;
 import org.openmrs.module.mdrtb.comparator.PersonByNameComparator;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
+import org.openmrs.module.mdrtb.model.PersonLocation;
 import org.openmrs.module.mdrtb.model.UserLocation;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.service.db.MdrtbDAO;
@@ -769,7 +770,19 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 	    return getLocationsByUser(Context.getAuthenticatedUser());
     }
 
+	public List<PersonLocation> getPersonLocations(Person person){
+		return dao.getPersonLocations(person);
+	}
+
+	public PersonLocation getPersonLocation(Person person){
+		return dao.getPersonLocation(person);
+	}
+
     public void setUserLocations(User user, List<Location> locations){
         dao.setUserLocations(user, locations);
     }
+
+	public PersonLocation savePersonLocation(PersonLocation pl){
+    	return dao.savePersonLocation(pl);
+	}
 }

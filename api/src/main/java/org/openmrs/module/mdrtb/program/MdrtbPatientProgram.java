@@ -486,7 +486,13 @@ public class MdrtbPatientProgram implements Comparable<MdrtbPatientProgram> {
     }
 
     public String getInitialSecondLineNumberDuringProgram(){
-        return  getInitialObsDuringProgram(MdrtbConcepts.MDRTB_REGISTRATION_NUMBER).getValueText().toUpperCase();
+        String slnumber = getInitialObsDuringProgram(MdrtbConcepts.MDRTB_REGISTRATION_NUMBER).getValueText().toUpperCase();
+        if (slnumber == null){
+        	return "N/A";
+		}
+		else {
+        	return slnumber;
+		}
     }
 
 	public Date getTreatmentStartDateDuringProgram() {

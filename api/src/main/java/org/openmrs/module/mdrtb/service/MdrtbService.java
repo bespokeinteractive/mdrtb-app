@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.openmrs.*;
 import org.openmrs.api.OpenmrsService;
+import org.openmrs.module.mdrtb.model.PersonLocation;
 import org.openmrs.module.mdrtb.model.UserLocation;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.specimen.Culture;
@@ -456,7 +457,14 @@ public interface MdrtbService extends OpenmrsService {
 
     public List<Location> getLocationsByUser(User user);
 
+    public List<PersonLocation> getPersonLocations(Person person);
+
+    public PersonLocation getPersonLocation(Person person);
+
     @Transactional
     public void setUserLocations(User user, List<Location> locations);
+
+    @Transactional
+    public PersonLocation savePersonLocation(PersonLocation pl);
 }
 

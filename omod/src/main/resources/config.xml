@@ -195,6 +195,7 @@
     <!-- Maps hibernate file's, if present -->
     <mappingFiles>
 		UserLocation.hbm.xml
+		PersonLocation.hbm.xml
     </mappingFiles>
 
 	<!-- Internationalization -->

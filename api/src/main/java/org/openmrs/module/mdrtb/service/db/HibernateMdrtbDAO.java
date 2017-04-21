@@ -1,6 +1,7 @@
 package org.openmrs.module.mdrtb.service.db;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -10,9 +11,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.Location;
+import org.openmrs.Person;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.db.DAOException;
+import org.openmrs.module.mdrtb.model.PersonLocation;
 import org.openmrs.module.mdrtb.model.UserLocation;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 
@@ -88,16 +91,27 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
         return locations;
     }
 
+    public List<PersonLocation> getPersonLocations(Person person){
+        Criteria criteria = getSession().createCriteria(PersonLocation.class);
+        criteria.add(Restrictions.eq("person", person));
+
+        return criteria.list();
+    }
+
+    public PersonLocation getPersonLocation(Person person){
+        List<PersonLocation> pLocations = getPersonLocations(person);
+        Collections.reverse(pLocations);
+
+        return pLocations.get(0);
+    }
+
     public void setUserLocations(User user, List<Location> pLocations){
         List<Location> aLocations = Context.getLocationService().getAllLocations();
         List<Location> uLocations = getLocationsByUser(user);
 
         for (Location location: aLocations){
-            System.out.println("LOOPS :: " + location.getName() );
-
             if (pLocations.contains(location) && !uLocations.contains(location)){
                 //Not Existence before, Add
-                System.out.println(location.getName() + " IS ADDED @" + location.getId());
                 UserLocation locale = new UserLocation();
                 locale.setUser(user);
                 locale.setLocation(location);
@@ -105,11 +119,13 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
             }
             else if (uLocations.contains(location) && !pLocations.contains(location)){
                 //Was there but not now, Remove
-                System.out.println(location.getName() + " IS BEING REMOVED @"+location.getId());
-
                 UserLocation locale = getUserLocations(user, location);
                 getSession().delete(locale);
             }
         }
+    }
+
+    public PersonLocation savePersonLocation(PersonLocation pl){
+        return (PersonLocation)getSession().merge(pl);
     }
 }
