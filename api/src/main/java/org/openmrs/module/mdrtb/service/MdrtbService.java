@@ -372,6 +372,12 @@ public interface MdrtbService extends OpenmrsService {
     public Collection<ConceptAnswer> getPossibleAnatomicalSites();
 
     /**
+     * Returns all possible TB Anatomical sites confirmed By
+     */
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleAnatomicalSitesConfirmation();
+
+    /**
      * Returns all possible Referring Departments
      */
     @Transactional(readOnly=true)
@@ -382,6 +388,12 @@ public interface MdrtbService extends OpenmrsService {
      */
     @Transactional(readOnly=true)
     public Collection<ConceptAnswer> getPossibleDirectObservers();
+
+    /**
+     * Returns all possible CURRENT MULTI-DRUG RESISTANT TUBERCULOSIS TREATMENT TYPES
+     */
+    @Transactional(readOnly=true)
+    public Collection<ConceptAnswer> getPossibleTbTreatmentTypes();
     
     /**
      * @return all of the Drugs within the ConceptSets which match the conceptMapKeys

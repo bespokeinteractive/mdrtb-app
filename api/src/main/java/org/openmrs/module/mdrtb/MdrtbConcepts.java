@@ -99,6 +99,9 @@ public class MdrtbConcepts {
     public final static String [] NEGATIVE = {"NEGATIVE"};
     public final static String [] CONTAMINATED = {"CONTAMINATED"};
 
+    public final static String [] YES = {"YES"};
+    public final static String [] NO = {"NO"};
+
     public final static String [] UNSATISFACTORY_SAMPLE = {"UNSATISFACTORY SAMPLE"};
     // MDR-TB Classification
     public final static String [] CAT_4_CLASSIFICATION_PREVIOUS_DRUG_USE = {"CATEGORY 4 TUBERCULOSIS CLASSIFICATION ACCORDING TO PREVIOUS DRUG USE"};
@@ -129,6 +132,7 @@ public class MdrtbConcepts {
     public final static String [] DEFAULTED = {"DEFAULTED"};
     public final static String [] DIED = {"DIED"};
     public final static String [] FAILED = {"FAILED"};
+    public final static String [] LOST_FOLLOWUP = {"LOST TO FOLLOWUP"};
     public final static String [] TREATMENT_COMPLETE = {"TREATMENT COMPLETE"};
     public final static String [] PATIENT_TRANSFERRED_OUT = {"PATIENT TRANSFERRED OUT"};
 
@@ -138,6 +142,10 @@ public class MdrtbConcepts {
     public final static String [] EXTRA_PULMONARY_TB = {"EXTRA-PULMONARY TUBERCULOSIS"};
 
     public final static String [] ANATOMICAL_SITE_OF_TB = {"ANATOMICAL SITE OF TUBERCULOSIS"};
+    public final static String [] SITE_CONFIRMATION = {"SITE CONFIRMATION"};
+    public final static String [] BACTERIOLOGICAL_CONFIRMED = {"BACTERIOLOGICAL CONFIRMED"};
+    public final static String [] CLINICALLY_DIAGNOSED = {"CLINICALLY DIAGNOSED"};
+
     // Antiretrovirals (for HIV status section and HIV regimens)
     public final static String [] ANTIRETROVIRALS = {"ANTIRETROVIRAL DRUGS"};
 
@@ -208,6 +216,7 @@ public class MdrtbConcepts {
     public final static String [] ART_STARTED_ON = {"ART START DATE"};
     public final static String [] CPT_STARTED_ON = {"CPT START DATE"};
 
+    public final static String [] MDRTB_REGISTER_NUMBER = {"FACILITY REGISTER NUMBER"};
     public final static String [] MDRTB_REGISTRATION_NUMBER = {"MDRTB SECOND-LINE REGISTATION NUMBER"};
     public final static String [] MDRTB_REGISTRATION_DATE = {"MDRTB SECOND-LINE REGISTATION DATE"};
 

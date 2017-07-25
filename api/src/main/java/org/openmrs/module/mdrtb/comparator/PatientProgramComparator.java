@@ -13,7 +13,12 @@ public class PatientProgramComparator implements Comparator<PatientProgram> {
 	    } else if (program2 == null || program2.getDateEnrolled() == null) {
 	    	return -1;
 	    } else {
-	    	return program1.getDateEnrolled().compareTo(program2.getDateEnrolled());
+			if (program1.getDateEnrolled().equals(program2.getDateEnrolled())){
+				return program1.getPatientProgramId().compareTo(program2.getPatientProgramId());
+			}
+			else {
+				return program1.getDateEnrolled().compareTo(program2.getDateEnrolled());
+			}
 	    }
 	}
 }

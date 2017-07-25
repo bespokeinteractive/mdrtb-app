@@ -10,7 +10,7 @@
 		$j('#programSelector').change(function(){
 			// test for the add option--i.e., if the selector has no value	
 			if ($j(this).val() == -1) {
-				$j(window).attr('location','${pageContext.request.contextPath}/module/mdrtb/program/showEnroll.form?patientId=${model.patient.patientId}');
+				$j(window).attr('location','${pageContext.request.contextPath}/module/mdrtb/programDetails/showEnroll.form?patientId=${model.patient.patientId}');
 			}
 			else {
 				// reload the proper page when the selector changes
@@ -48,7 +48,7 @@
 <!-- BANNER FOR CLOSED PROGRAMS -->
 <c:if test="${! empty model.patientProgram && !model.patientProgram.active && !model.patient.dead}">
 	<div id="patientDashboardDeceased" class="retiredMessage">
-		<div><spring:message code="mdrtb.patientProgramClosed" text="The patient program you are viewing is closed."/></div>
+		<div><spring:message code="mdrtb.patientProgramClosed" text="The patient programDetails you are viewing is closed."/></div>
 	</div>
 </c:if>
 
@@ -58,17 +58,17 @@
 <td align="left">
 &nbsp;<span style="font-weight:bold"><spring:message code="mdrtb.currentlyViewing" text="Currently viewing"/>:</span>
 <select id="programSelector">
-<c:forEach var="program" items="${model.patientPrograms}">
+<c:forEach var="programDetails" items="${model.patientPrograms}">
 	<c:choose>
-		<c:when test="${program.active}">
-			<option value="${program.id}" <c:if test="${program.id == model.patientProgramId}">selected</c:if> ><spring:message code="mdrtb.activeMdrtbProgramSelector" text="Active MDR-TB Program, started on"/> <openmrs:formatDate date="${program.dateEnrolled}" format="${_dateFormatDisplay}"/> <c:if test="${!empty program.location}"> <spring:message code="mdrtb.at" text="at"/> ${program.location}</c:if></option>
+		<c:when test="${programDetails.active}">
+			<option value="${programDetails.id}" <c:if test="${programDetails.id == model.patientProgramId}">selected</c:if> ><spring:message code="mdrtb.activeMdrtbProgramSelector" text="Active MDR-TB Program, started on"/> <openmrs:formatDate date="${programDetails.dateEnrolled}" format="${_dateFormatDisplay}"/> <c:if test="${!empty programDetails.location}"> <spring:message code="mdrtb.at" text="at"/> ${programDetails.location}</c:if></option>
 		</c:when>
 		<c:otherwise>
-			<option value="${program.id}" <c:if test="${program.id == model.patientProgramId}">selected</c:if> ><spring:message code="mdrtb.closedMdrtbProgramSelector" text="MDR-TB program from"/> <openmrs:formatDate date="${program.dateEnrolled}" format="${_dateFormatDisplay}"/> <spring:message code="mdrtb.to" text="to"/> <openmrs:formatDate date="${program.dateCompleted}" format="${_dateFormatDisplay}"/><c:if test="${!empty program.location}"> <spring:message code="mdrtb.at" text="at"/> ${program.location}</c:if></option>
+			<option value="${programDetails.id}" <c:if test="${programDetails.id == model.patientProgramId}">selected</c:if> ><spring:message code="mdrtb.closedMdrtbProgramSelector" text="MDR-TB programDetails from"/> <openmrs:formatDate date="${programDetails.dateEnrolled}" format="${_dateFormatDisplay}"/> <spring:message code="mdrtb.to" text="to"/> <openmrs:formatDate date="${programDetails.dateCompleted}" format="${_dateFormatDisplay}"/><c:if test="${!empty programDetails.location}"> <spring:message code="mdrtb.at" text="at"/> ${programDetails.location}</c:if></option>
 		</c:otherwise>
 	</c:choose>
 </c:forEach>
-<option value="-1"><spring:message code="mdrtb.addNewMdrtbProgram" text="Add new MDR-TB program"/></option>
+<option value="-1"><spring:message code="mdrtb.addNewMdrtbProgram" text="Add new MDR-TB programDetails"/></option>
 </select>
 </td>
 <!-- patient search box -->
@@ -88,7 +88,7 @@
 		<li style="border-left-width: 0px;" <c:if test='<%= request.getRequestURI().contains("dashboard") %>'>class="active"</c:if>>
 		<a href="${pageContext.request.contextPath}/module/mdrtb/dashboard/dashboard.form?patientId=${model.patient.patientId}&patientProgramId=${!empty patientProgramId ? patientProgramId : '-1'}"><spring:message code="mdrtb.overview" text="Overview"/></a></li>
 
-        <!-- only show the chart, visits, and treatment tabs if the patient is enrolled in a program -->
+        <!-- only show the chart, visits, and treatment tabs if the patient is enrolled in a programDetails -->
 
         <c:if test="${ not empty patientProgramId && patientProgramId != -1 }">
 
@@ -116,7 +116,7 @@
 <c:if test="${ empty patientProgramId || patientProgramId == -1 }">
 <tr>
     <td align="left">
-        <b><spring:message code="mdrtb.pleaseEnroll" text="Please enroll patient in MDR-TB program to initialize chart, visits, and treatment tabs"/></b>
+        <b><spring:message code="mdrtb.pleaseEnroll" text="Please enroll patient in MDR-TB programDetails to initialize chart, visits, and treatment tabs"/></b>
     </td>
 </tr>
 </c:if>

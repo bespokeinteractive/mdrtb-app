@@ -9,7 +9,7 @@
 
 <c:choose>
 <c:when test="${empty model.chart.records}">
-	<spring:message code="mdrtb.noChart" text="No test results or regimen information available for this patient program."/>
+	<spring:message code="mdrtb.noChart" text="No test results or regimen information available for this patient programDetails."/>
 </c:when>
 
 <c:otherwise>

@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/view/module/mdrtb/include.jsp"%> 
 <%@ include file="/WEB-INF/view/module/mdrtb/mdrtbHeader.jsp"%>
 
-<openmrs:portlet url="mdrtbPatientHeader" id="mdrtbPatientHeader" moduleId="mdrtb" patientId="${!empty patientId ? patientId : program.patient.id}"/>
+<openmrs:portlet url="mdrtbPatientHeader" id="mdrtbPatientHeader" moduleId="mdrtb" patientId="${!empty patientId ? patientId : programDetails.patient.id}"/>
 
 <!-- TODO: clean up above paths so they use dynamic reference -->
 <!-- TODO: add privileges? -->

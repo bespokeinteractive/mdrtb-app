@@ -5,7 +5,7 @@
 <openmrs:htmlInclude file="/moduleResources/mdrtb/jquery.tooltip.js" />
 <openmrs:htmlInclude file="/moduleResources/mdrtb/jquery.tooltip.css" />
 
-<openmrs:portlet url="mdrtbPatientHeader" id="mdrtbPatientHeader" moduleId="mdrtb" patientId="${!empty patientId ? patientId : program.patient.id}"/>
+<openmrs:portlet url="mdrtbPatientHeader" id="mdrtbPatientHeader" moduleId="mdrtb" patientId="${!empty patientId ? patientId : programDetails.patient.id}"/>
 <openmrs:portlet url="mdrtbSubheader" id="mdrtbSubheader" moduleId="mdrtb" patientId="${! empty patientId ? patientId : specimen.patient.patientId}" parameters="patientProgramId=${patientProgramId}"/>
 
 <!-- TODO: clean up above paths so they use dynamic reference -->
@@ -36,10 +36,10 @@
 	<br/>
 </c:if>
 
-<form id="programEnroll" action="${pageContext.request.contextPath}/module/mdrtb/program/programEnroll.form?patientId=${patientId}&patientProgramId=-1" method="post" >
+<form id="programEnroll" action="${pageContext.request.contextPath}/module/mdrtb/programDetails/programEnroll.form?patientId=${patientId}&patientProgramId=-1" method="post" >
 <table cellspacing="2" cellpadding="2">
 <tr><td>
-<spring:message code="mdrtb.enrollment.date" text="Enrollment Date"/>:</td><td><input id="dateEnrolled" type="text" size="14" tabindex="-1" name="dateEnrolled" value="<openmrs:formatDate date='${program.dateEnrolled}'/>" onFocus="showCalendar(this)"/>
+<spring:message code="mdrtb.enrollment.date" text="Enrollment Date"/>:</td><td><input id="dateEnrolled" type="text" size="14" tabindex="-1" name="dateEnrolled" value="<openmrs:formatDate date='${programDetails.dateEnrolled}'/>" onFocus="showCalendar(this)"/>
 </td></tr>
 
 <tr><td>
@@ -47,7 +47,7 @@
 <select name="location">
 <option value=""/>
 <c:forEach var="location" items="${locations}">
-<option value="${location.locationId}" <c:if test="${location == program.location}">selected</c:if> >${location.displayString}</option>
+<option value="${location.locationId}" <c:if test="${location == programDetails.location}">selected</c:if> >${location.displayString}</option>
 </c:forEach>
 </select>
 </td></tr>
@@ -57,7 +57,7 @@
 <select name="classificationAccordingToPreviousDrugUse">
 <option value=""/>
 <c:forEach var="classificationAccordingToPreviousDrugUse" items="${classificationsAccordingToPreviousDrugUse}">
-<option value="${classificationAccordingToPreviousDrugUse.id}" <c:if test="${classificationAccordingToPreviousDrugUse == program.classificationAccordingToPreviousDrugUse}">selected</c:if> >${classificationAccordingToPreviousDrugUse.concept.displayString}</option>
+<option value="${classificationAccordingToPreviousDrugUse.id}" <c:if test="${classificationAccordingToPreviousDrugUse == programDetails.classificationAccordingToPreviousDrugUse}">selected</c:if> >${classificationAccordingToPreviousDrugUse.concept.displayString}</option>
 </c:forEach>
 </select>	
 </td></tr>
@@ -67,14 +67,14 @@
 <select name="classificationAccordingToPreviousTreatment">
 <option value=""/>
 <c:forEach var="classificationAccordingToPreviousTreatment" items="${classificationsAccordingToPreviousTreatment}">
-<option value="${classificationAccordingToPreviousTreatment.id}" <c:if test="${classificationAccordingToPreviousTreatment == program.classificationAccordingToPreviousTreatment}">selected</c:if> >${classificationAccordingToPreviousTreatment.concept.displayString}</option>
+<option value="${classificationAccordingToPreviousTreatment.id}" <c:if test="${classificationAccordingToPreviousTreatment == programDetails.classificationAccordingToPreviousTreatment}">selected</c:if> >${classificationAccordingToPreviousTreatment.concept.displayString}</option>
 </c:forEach>
 </select>	
 </td></tr>
 
 <c:if test="${hasActiveProgram}">
 <tr><td>
-<spring:message code="mdrtb.completionDate" text="Completion Date"/>:</td><td><input id="dateCompleted" type="text" size="14" name="dateCompleted" value="<openmrs:formatDate date='${program.dateCompleted}'/>" onFocus="showCalendar(this)"/>
+<spring:message code="mdrtb.completionDate" text="Completion Date"/>:</td><td><input id="dateCompleted" type="text" size="14" name="dateCompleted" value="<openmrs:formatDate date='${programDetails.dateCompleted}'/>" onFocus="showCalendar(this)"/>
 </td></tr>
 <tr><td>
 <spring:message code="mdrtb.outcome" text="Outcome"/>:</td><td>

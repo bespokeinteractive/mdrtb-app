@@ -43,7 +43,7 @@
 		<property>@MODULE_ID@.program_name</property>
 		<defaultValue>MDR-TB PROGRAM</defaultValue>
 		<description>
-			MDR-TB program name.
+			MDR-TB programDetails name.
 		</description>
 	</globalProperty>
 	<globalProperty>
@@ -58,14 +58,14 @@
 		<property>@MODULE_ID@.patient_identifier_type_list</property>
 		<defaultValue/>
 		<description>
-			Pipe delimited list of all patient identifier types associated with the MDRTB program.
+			Pipe delimited list of all patient identifier types associated with the MDRTB programDetails.
 		</description>
 	</globalProperty>
 	<globalProperty>
 		<property>@MODULE_ID@.birt_report_list</property>
 		<defaultValue/>
 		<description>
-			List all BIRT reports by name that correspond to the MDR-TB program.  Pipe delimited.
+			List all BIRT reports by name that correspond to the MDR-TB programDetails.  Pipe delimited.
 		</description>
 	</globalProperty>
 	<globalProperty>

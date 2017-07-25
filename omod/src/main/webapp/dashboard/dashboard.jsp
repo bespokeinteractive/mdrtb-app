@@ -7,8 +7,8 @@
 <openmrs:htmlInclude file="/moduleResources/mdrtb/jquery.tooltip.js" />
 <openmrs:htmlInclude file="/moduleResources/mdrtb/jquery.tooltip.css" />
 
-<openmrs:portlet url="mdrtbPatientHeader" id="mdrtbPatientHeader" moduleId="mdrtb" patientId="${!empty patientId ? patientId : program.patient.id}"/>
-<openmrs:portlet url="mdrtbSubheader" id="mdrtbSubheader" moduleId="mdrtb" patientId="${!empty patientId ? patientId : program.patient.id}" parameters="patientProgramId=${patientProgramId}"/>
+<openmrs:portlet url="mdrtbPatientHeader" id="mdrtbPatientHeader" moduleId="mdrtb" patientId="${!empty patientId ? patientId : programDetails.patient.id}"/>
+<openmrs:portlet url="mdrtbSubheader" id="mdrtbSubheader" moduleId="mdrtb" patientId="${!empty patientId ? patientId : programDetails.patient.id}" parameters="patientProgramId=${patientProgramId}"/>
 
 <!-- TODO: clean up above paths so they use dynamic reference -->
 <!-- TODO: add privileges? -->
@@ -82,8 +82,8 @@
 		});
 
 		$j('#programDeleteButton').click(function() {
-			if (confirm('<spring:message code="mdrtb.confirmDeleteProgram" text="Are you sure you want to delete this program?"/>')) {
-				window.location="${pageContext.request.contextPath}/module/mdrtb/program/programDelete.form?patientProgramId=${patientProgramId}";
+			if (confirm('<spring:message code="mdrtb.confirmDeleteProgram" text="Are you sure you want to delete this programDetails?"/>')) {
+				window.location="${pageContext.request.contextPath}/module/mdrtb/programDetails/programDelete.form?patientProgramId=${patientProgramId}";
 			}
 		});
  		
@@ -164,8 +164,8 @@
 <div class="box" style="margin:0px;">
 
 <table cellpadding="0" cellspacing="0">
-<tr><td style="font-weight:bold"><spring:message code="mdrtb.enrollment.date" text="Enrollment Date"/>:</td><td width="75%"><openmrs:formatDate date="${program.dateEnrolled}" format="${_dateFormatDisplay}"/></td></tr>
-<tr><td style="font-weight:bold"><spring:message code="mdrtb.enrollment.location" text="Enrollment Location"/>:</td><td>${program.location.displayString}</td></tr>
+<tr><td style="font-weight:bold"><spring:message code="mdrtb.enrollment.date" text="Enrollment Date"/>:</td><td width="75%"><openmrs:formatDate date="${programDetails.dateEnrolled}" format="${_dateFormatDisplay}"/></td></tr>
+<tr><td style="font-weight:bold"><spring:message code="mdrtb.enrollment.location" text="Enrollment Location"/>:</td><td>${programDetails.location.displayString}</td></tr>
 </table>
 
 <br/>
@@ -174,8 +174,8 @@
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.previousDrugClassification" text="Registration Group - Previous Drug Use"/>:</td>
 <td>
 <c:choose>
-	<c:when test="${! empty program.classificationAccordingToPreviousDrugUse.concept.displayString}">
-		${program.classificationAccordingToPreviousDrugUse.concept.displayString}
+	<c:when test="${! empty programDetails.classificationAccordingToPreviousDrugUse.concept.displayString}">
+		${programDetails.classificationAccordingToPreviousDrugUse.concept.displayString}
 	</c:when>
 	<c:otherwise>
 		<spring:message code="mdrtb.unknown"/>
@@ -185,8 +185,8 @@
 <tr><td style="font-weight:bold"><spring:message code="mdrtb.previousTreatmentClassification" text="Registration Group - Previous Treatment"/>:</td>
 <td>
 <c:choose>
-	<c:when test="${! empty program.classificationAccordingToPreviousTreatment.concept.displayString}">
-		${program.classificationAccordingToPreviousTreatment.concept.displayString}
+	<c:when test="${! empty programDetails.classificationAccordingToPreviousTreatment.concept.displayString}">
+		${programDetails.classificationAccordingToPreviousTreatment.concept.displayString}
 	</c:when>
 	<c:otherwise>
 		<spring:message code="mdrtb.unknown"/>
@@ -198,13 +198,13 @@
 <br/>
 
 <table cellpadding="0" cellspacing="0">
-<c:if test="${!program.active}">
-<tr><td style="font-weight:bold"><spring:message code="mdrtb.completionDate" text="Completion Date"/>:</td><td><openmrs:formatDate date="${program.dateCompleted}" format="${_dateFormatDisplay}"/></td></tr>
-<tr><td style="font-weight:bold"><spring:message code="mdrtb.outcome" text="Outcome"/>:</td><td>${program.outcome.concept.displayString}</td></tr>
+<c:if test="${!programDetails.active}">
+<tr><td style="font-weight:bold"><spring:message code="mdrtb.completionDate" text="Completion Date"/>:</td><td><openmrs:formatDate date="${programDetails.dateCompleted}" format="${_dateFormatDisplay}"/></td></tr>
+<tr><td style="font-weight:bold"><spring:message code="mdrtb.outcome" text="Outcome"/>:</td><td>${programDetails.outcome.concept.displayString}</td></tr>
 </c:if>
 </table>
 
-<button id="programEditButton"><spring:message code="mdrtb.editProgram" text="Edit Program"/></button> <c:if test="${program.active}"><button id="programCloseButton"><spring:message code="mdrtb.closeProgram" text="Close Program"/></button></c:if>
+<button id="programEditButton"><spring:message code="mdrtb.editProgram" text="Edit Program"/></button> <c:if test="${programDetails.active}"><button id="programCloseButton"><spring:message code="mdrtb.closeProgram" text="Close Program"/></button></c:if>
 </div>
 
 <!--  EDIT PROGRAM POPUP -->
@@ -217,17 +217,17 @@
 	</c:forEach>
 </c:if>
 
-<form id="programEdit" action="${pageContext.request.contextPath}/module/mdrtb/program/programEdit.form?patientProgramId=${program.id}" method="post" >
+<form id="programEdit" action="${pageContext.request.contextPath}/module/mdrtb/programDetails/programEdit.form?patientProgramId=${programDetails.id}" method="post" >
 <table cellspacing="2" cellpadding="2">
 <tr><td style="font-weight:bold">
-<spring:message code="mdrtb.enrollment.date" text="Enrollment Date"/>:</td><td><input id="dateEnrolled" type="text" size="14" tabindex="-1" name="dateEnrolled" value="<openmrs:formatDate date='${program.dateEnrolled}'/>" onFocus="showCalendar(this)"/>
+<spring:message code="mdrtb.enrollment.date" text="Enrollment Date"/>:</td><td><input id="dateEnrolled" type="text" size="14" tabindex="-1" name="dateEnrolled" value="<openmrs:formatDate date='${programDetails.dateEnrolled}'/>" onFocus="showCalendar(this)"/>
 </td></tr>
 <tr><td style="font-weight:bold">
 <spring:message code="mdrtb.enrollment.Location" text="Enrollment Location"/>:</td><td>
 <select id="location" name="location">
 <option value=""/>
 <c:forEach var="location" items="${locations}">
-<option value="${location.locationId}" <c:if test="${location == program.location}">selected</c:if> >${location.displayString}</option>
+<option value="${location.locationId}" <c:if test="${location == programDetails.location}">selected</c:if> >${location.displayString}</option>
 </c:forEach>
 </select>	
 </td></tr>
@@ -237,7 +237,7 @@
 <select name="classificationAccordingToPreviousDrugUse">
 <option value=""/>
 <c:forEach var="classificationAccordingToPreviousDrugUse" items="${classificationsAccordingToPreviousDrugUse}">
-<option value="${classificationAccordingToPreviousDrugUse.id}" <c:if test="${classificationAccordingToPreviousDrugUse == program.classificationAccordingToPreviousDrugUse}">selected</c:if> >${classificationAccordingToPreviousDrugUse.concept.displayString}</option>
+<option value="${classificationAccordingToPreviousDrugUse.id}" <c:if test="${classificationAccordingToPreviousDrugUse == programDetails.classificationAccordingToPreviousDrugUse}">selected</c:if> >${classificationAccordingToPreviousDrugUse.concept.displayString}</option>
 </c:forEach>
 </select>	
 </td></tr>
@@ -247,26 +247,26 @@
 <select name="classificationAccordingToPreviousTreatment">
 <option value=""/>
 <c:forEach var="classificationAccordingToPreviousTreatment" items="${classificationsAccordingToPreviousTreatment}">
-<option value="${classificationAccordingToPreviousTreatment.id}" <c:if test="${classificationAccordingToPreviousTreatment == program.classificationAccordingToPreviousTreatment}">selected</c:if> >${classificationAccordingToPreviousTreatment.concept.displayString}</option>
+<option value="${classificationAccordingToPreviousTreatment.id}" <c:if test="${classificationAccordingToPreviousTreatment == programDetails.classificationAccordingToPreviousTreatment}">selected</c:if> >${classificationAccordingToPreviousTreatment.concept.displayString}</option>
 </c:forEach>
 </select>	
 </td></tr>
 
-<c:if test="${!program.active}">
+<c:if test="${!programDetails.active}">
 	<tr><td style="font-weight:bold">
-	<spring:message code="mdrtb.completionDate" text="Completion Date"/>:</td><td><input id="dateCompleted" type="text" size="14" name="dateCompleted" value="<openmrs:formatDate date='${program.dateCompleted}'/>" onFocus="showCalendar(this)"/>
+	<spring:message code="mdrtb.completionDate" text="Completion Date"/>:</td><td><input id="dateCompleted" type="text" size="14" name="dateCompleted" value="<openmrs:formatDate date='${programDetails.dateCompleted}'/>" onFocus="showCalendar(this)"/>
 	</td></tr>
 	<tr><td style="font-weight:bold">
 	<spring:message code="mdrtb.outcome" text="Outcome"/>:</td><td>
 	<select class="outcome" name="outcome">
 	<option value=""/>
 	<c:forEach var="outcome" items="${outcomes}">
-	<option value="${outcome.id}" <c:if test="${outcome == program.outcome}">selected</c:if> >${outcome.concept.displayString}</option>
+	<option value="${outcome.id}" <c:if test="${outcome == programDetails.outcome}">selected</c:if> >${outcome.concept.displayString}</option>
 	</c:forEach>
 	</select>	
 	</td></tr>
-	<c:if test="${! program.patient.dead}">
-		<tr class="patientDiedField"<c:if test="${program.outcome != patientDied}"> style="display:none"</c:if>><td style="font-weight:bold">
+	<c:if test="${! programDetails.patient.dead}">
+		<tr class="patientDiedField"<c:if test="${programDetails.outcome != patientDied}"> style="display:none"</c:if>><td style="font-weight:bold">
 		<spring:message code="mdrtb.causeOfDeath" text="Cause of Death"/>:</td><td><wgt:widget id="causeOfDeath" name="causeOfDeath" type="org.openmrs.Concept"/>
 	</td></tr>
 </c:if>
@@ -292,25 +292,25 @@
 	</c:forEach>
 </c:if>
 
-<form id="programClose" action="${pageContext.request.contextPath}/module/mdrtb/program/programClose.form?patientProgramId=${program.id}" method="post" >
+<form id="programClose" action="${pageContext.request.contextPath}/module/mdrtb/programDetails/programClose.form?patientProgramId=${programDetails.id}" method="post" >
 <table cellspacing="2" cellpadding="2">
 <tr><td style="font-weight:bold">
-<spring:message code="mdrtb.completionDate" text="Completion Date"/>:</td><td><input id="dateToClose" type="text" size="14" tabindex="-1" name="dateCompleted"  value="<openmrs:formatDate date='${program.dateCompleted}'/>" onFocus="showCalendar(this)"/>
+<spring:message code="mdrtb.completionDate" text="Completion Date"/>:</td><td><input id="dateToClose" type="text" size="14" tabindex="-1" name="dateCompleted"  value="<openmrs:formatDate date='${programDetails.dateCompleted}'/>" onFocus="showCalendar(this)"/>
 </td></tr>
 <tr><td style="font-weight:bold">
 <spring:message code="mdrtb.outcome" text="Outcome"/>:</td><td>
 <select class="outcome" name="outcome">
 <option value=""/>
 <c:forEach var="outcome" items="${outcomes}">
-<option value="${outcome.id}"  <c:if test="${outcome == program.outcome}">selected</c:if> >${outcome.concept.displayString}</option>
+<option value="${outcome.id}"  <c:if test="${outcome == programDetails.outcome}">selected</c:if> >${outcome.concept.displayString}</option>
 </c:forEach>
 </select>	
 </td></tr>
 </td></tr>
-<c:if test="${! program.patient.dead}">
-	<tr class="patientDiedField"<c:if test="${program.outcome != patientDied}"> style="display:none"</c:if>><td style="font-weight:bold">
+<c:if test="${! programDetails.patient.dead}">
+	<tr class="patientDiedField"<c:if test="${programDetails.outcome != patientDied}"> style="display:none"</c:if>><td style="font-weight:bold">
 	<spring:message code="mdrtb.causeOfDeath" text="Cause of Death"/>:</td>
-	<td><wgt:widget id="causeOfDeath" name="causeOfDeath" type="org.openmrs.Concept" object="${program.patient}" property="causeOfDeath"/></td>
+	<td><wgt:widget id="causeOfDeath" name="causeOfDeath" type="org.openmrs.Concept" object="${programDetails.patient}" property="causeOfDeath"/></td>
 	</tr>
 </c:if>
 </table>
@@ -427,7 +427,7 @@ ${regimen.displayString}
 <!--  START HOSPITALIZATIONS STATUS BOX -->
 <b class="boxHeader" style="margin:0px"><spring:message code="mdrtb.hospitalizations" text="Hospitalizations"/>: 
 <c:choose>
-	<c:when test="${program.currentlyHospitalized}">
+	<c:when test="${programDetails.currentlyHospitalized}">
 		<spring:message code="mdrtb.currentlyHospitalized" text="Currently hospitalized"/>
 	</c:when>
 	<c:otherwise>
@@ -435,7 +435,7 @@ ${regimen.displayString}
 	</c:otherwise>
 </c:choose></b>
 <div class="box" style="margin:0px">
-<c:if test="${!empty program.allHospitalizations}">
+<c:if test="${!empty programDetails.allHospitalizations}">
 
 <table cellspacing="0" cellpadding="0" border="2px" width="100%">
 <tr>
@@ -446,7 +446,7 @@ ${regimen.displayString}
 <td width="95%">&nbsp;</td>
 </tr>
 
-<c:forEach var="hospitalization" items="${program.allHospitalizations}">
+<c:forEach var="hospitalization" items="${programDetails.allHospitalizations}">
 <!-- the hidden "admissionDate" and "dischargeDate" spans are used to hold the dates in "edit" format for use by jquery when opening the edit pop-up -->
 <tr>
 <td><span class="admissionDate" style="display:none"><openmrs:formatDate date="${hospitalization.startDate}"/></span><openmrs:formatDate date="${hospitalization.startDate}" format="${_dateFormatDisplay}"/></td>
@@ -467,7 +467,7 @@ ${regimen.displayString}
 </c:if>
 </td>
 <td><a id="${hospitalization.id}" class="hospitalizationsEditLink" onmouseover="document.body.style.cursor='pointer'" onmouseout="document.body.style.cursor='default'"><spring:message code="mdrtb.edit" text="edit"/></a></td>
-<td><a href="${pageContext.request.contextPath}/module/mdrtb/program/hospitalizationsDelete.form?patientProgramId=${program.id}&hospitalizationStateId=${hospitalization.id}" onclick="return confirm('<spring:message code="mdrtb.confirmDeleteHospitalization" text="Are you sure you want to delete this hospitalization?"/>')"><spring:message code="mdrtb.delete" text="delete"/></a></td>
+<td><a href="${pageContext.request.contextPath}/module/mdrtb/programDetails/hospitalizationsDelete.form?patientProgramId=${programDetails.id}&hospitalizationStateId=${hospitalization.id}" onclick="return confirm('<spring:message code="mdrtb.confirmDeleteHospitalization" text="Are you sure you want to delete this hospitalization?"/>')"><spring:message code="mdrtb.delete" text="delete"/></a></td>
 </tr>
 </c:forEach>
 </table>
@@ -491,7 +491,7 @@ ${regimen.displayString}
 	</c:forEach>
 </c:if>
 
-<form id="hospitalizationsEdit" action="${pageContext.request.contextPath}/module/mdrtb/program/hospitalizationsEdit.form?patientProgramId=${program.id}" method="post" >
+<form id="hospitalizationsEdit" action="${pageContext.request.contextPath}/module/mdrtb/programDetails/hospitalizationsEdit.form?patientProgramId=${programDetails.id}" method="post" >
 <input type="hidden" id="hospitalizationStateId" name="hospitalizationStateId" value="${hospitalizationStateId}"/>
 <table cellspacing="2" cellpadding="2">
 <tr><td style="font-weight:bold">

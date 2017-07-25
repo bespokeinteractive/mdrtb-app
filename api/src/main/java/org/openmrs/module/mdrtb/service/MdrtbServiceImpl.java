@@ -141,6 +141,7 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
         List<PatientProgram> programs = Context.getProgramWorkflowService().getPatientPrograms(patient, null, null, null, null, null, false);
         // sort the programs so oldest is first and most recent is last
         Collections.sort(programs, new PatientProgramComparator());
+
         List<MdrtbPatientProgram> mdrtbPrograms = new LinkedList<MdrtbPatientProgram>();
 
         // convert to mdrtb patient programs
@@ -578,6 +579,10 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     	return this.getConcept(MdrtbConcepts.ANATOMICAL_SITE_OF_TB).getAnswers();
     }
 
+	public Collection<ConceptAnswer> getPossibleAnatomicalSitesConfirmation() {
+		return this.getConcept(MdrtbConcepts.SITE_CONFIRMATION).getAnswers();
+	}
+
 	public Collection<ConceptAnswer> getPossibleReferringDepartments() {
 		return this.getConcept(MdrtbConcepts.REFERRED_BY).getAnswers();
 	}
@@ -585,7 +590,11 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 	public Collection<ConceptAnswer> getPossibleDirectObservers() {
 		return this.getConcept(MdrtbConcepts.DOTS_BY).getAnswers();
 	}
-    
+
+    public Collection<ConceptAnswer> getPossibleTbTreatmentTypes() {
+        return this.getConcept(MdrtbConcepts.CURRENT_MULTI_DRUG_RESISTANT_TUBERCULOSIS_TREATMENT_TYPE).getAnswers();
+    }
+
     /**
      * @return the List of Concepts that represent the Drugs within the passed Drug Set
      */

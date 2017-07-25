@@ -93,7 +93,7 @@
 	</span>
 	
 	<span id="classicViewLink">
-		<c:set var="id" value="${!empty patientId ? patientId : program.patient.id}"/>
+		<c:set var="id" value="${!empty patientId ? patientId : programDetails.patient.id}"/>
 		<c:if test="${!empty id}">
 			<a href="${pageContext.request.contextPath}/patientDashboard.form?patientId=${id}">
 		</c:if>

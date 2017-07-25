@@ -110,7 +110,7 @@
 			<rtexprvalue>false</rtexprvalue>
 		</attribute>
 		<attribute>
-			<description>if you set name to 'state', you must specify which program by name</description>
+			<description>if you set name to 'state', you must specify which programDetails by name</description>
 			<name>programName</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>

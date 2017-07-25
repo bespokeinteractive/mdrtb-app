@@ -189,6 +189,10 @@ public abstract class AbstractSimpleForm implements SimpleForm {
         updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.TREATMENT_SUPPORTER), this.encounter, support);
     }
 
+	public void setSiteConfirmation(Concept confirmation) {
+		updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.TREATMENT_SUPPORTER), this.encounter, confirmation.getId().toString());
+	}
+
     public String getReferringDepartment() {
         return fetchObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.REFERRED_BY), this.encounter);
     }
@@ -223,6 +227,13 @@ public abstract class AbstractSimpleForm implements SimpleForm {
         }
 	}
 
+    public String getFacilityRegisterNumber() {
+        return fetchObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDRTB_REGISTER_NUMBER), this.encounter);
+    }
+
+    public void setFacilityRegisterNumber(String number) {
+        updateObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDRTB_REGISTER_NUMBER), this.encounter, number);
+    }
 
 	public String getSecondLineRegistrationNumber() {
 		return fetchObs(Context.getService(MdrtbService.class).getConcept(MdrtbConcepts.MDRTB_REGISTRATION_NUMBER), this.encounter);

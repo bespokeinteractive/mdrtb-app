@@ -29,7 +29,7 @@
 		return false;
 	}
 
-	// hides all add and edit details boxes
+	// hides all add and edit description boxes
 	function hideDisplayBoxes(){
 		$j('.addBox').hide();
 		$j('.editBox').hide();
@@ -84,7 +84,7 @@
 		if (${fn:length(specimenErrors.allErrors) > 0}) {
 			// switch to edit specimen if we are here because of specimen validation error
 			hideLinks();
-			$j('#details_specimen').hide();  // hide the specimen details box
+			$j('#details_specimen').hide();  // hide the specimen description box
 			$j('#edit_specimen').show();  // show the edit speciment box		
 		}
 		else if (${fn:length(testErrors.allErrors) > 0}) {
@@ -92,7 +92,7 @@
 			if(${! empty testDate}) {
 				// handle the "edit" case
 				hideLinks();
-				$j('#details_${testDate}').hide();  // hide the selected details box
+				$j('#details_${testDate}').hide();  // hide the selected description box
 				$j('#edit_${testDate}').show(); // show the selected edit box
 				showAddDstResultsWithData(); // show any dst result rows that may have transitory data
 				$j(document).scrollTop($j('#edit_${testDate}').offset().top - 50); // jump to the edit box that has the error
@@ -116,7 +116,7 @@
 		// event handlers to hide and show specimen edit box
 		$j('#editSpecimen').click(function(){
 			hideLinks();
-			$j('#details_specimen').hide();  // hide the specimen details box
+			$j('#details_specimen').hide();  // hide the specimen description box
 			$j('#edit_specimen').show();  // show the edit speciment box
 		});
 
@@ -130,7 +130,7 @@
 				// otherwise, just do a standard "cancel"		
 				showLinks();
 				$j('#edit_specimen').hide();  // hide the edit specimen box
-				$j('#details_specimen').show();  // show the specimen details box
+				$j('#details_specimen').show();  // show the specimen description box
 				$j('.scannedLabReport').show(); // show any scanned lab reports that may have been deleted
 			}
 		});
@@ -156,7 +156,7 @@
 		// event handler to display edit detail boxes
 		$j('.edit').click(function(){
 			hideLinks();
-			$j('#details_' + this.id).hide();  // hide the selected details box
+			$j('#details_' + this.id).hide();  // hide the selected description box
 			$j('#edit_' + this.id).show();  // show the selected edit box
 		});
 
@@ -312,7 +312,7 @@
 </c:when>
 
 <c:otherwise>
-	<spring:message code="mdrtb.noSpecimens" text="No specimen information available for this patient program."/>
+	<spring:message code="mdrtb.noSpecimens" text="No specimen information available for this patient programDetails."/>
 </c:otherwise>
 </c:choose>
 
@@ -648,7 +648,7 @@
 
 </div>
 <br/>
-</div> <!-- end of details div -->
+</div> <!-- end of description div -->
 
 <!-- END OF TEST DETAILS SECTION -->
 
