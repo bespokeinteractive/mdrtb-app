@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.engine.loading.LoadContexts;
 import org.openmrs.*;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.mdrtb.model.PersonLocation;
@@ -72,12 +73,24 @@ public interface MdrtbService extends OpenmrsService {
   	 */
     @Transactional(readOnly=true)
 	public List<MdrtbPatientProgram> getMdrtbPatientPrograms(Patient patient);
+
+    /**
+     * Returns all the mdrtb programs for a given patient from a given location
+     */
+    @Transactional(readOnly=true)
+    public List<MdrtbPatientProgram> getMdrtbPatientPrograms(Patient patient, Location location);
 	
 	/**
 	 * Returns the most recent mdrtb program for a given patient
 	 */
     @Transactional(readOnly=true)
 	public MdrtbPatientProgram getMostRecentMdrtbPatientProgram(Patient patient);
+
+    /**
+     * Returns the most recent mdrtb program for a given patient from a given location
+     */
+    @Transactional(readOnly=true)
+    public MdrtbPatientProgram getMostRecentMdrtbPatientProgram(Patient patient, Location location);
 	
     /**
      * Returns all the patient programs for a given patient that fall within a specific date range

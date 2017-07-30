@@ -151,6 +151,19 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
         return mdrtbPrograms;
     }
 
+	public List<MdrtbPatientProgram> getMdrtbPatientPrograms(Patient patient, Location location) {
+		List<PatientProgram> programs = Context.getProgramWorkflowService().getPatientPrograms(patient, null, null, null, null, null, false);
+	    Collections.sort(programs, new PatientProgramComparator());
+		List<MdrtbPatientProgram> mdrtbPrograms = new LinkedList<MdrtbPatientProgram>();
+
+		for (PatientProgram program : programs) {
+		    if (program.getLocation().equals(location)){
+                mdrtbPrograms.add(new MdrtbPatientProgram(program));
+            }
+		}
+		return mdrtbPrograms;
+	}
+
 	
 	public MdrtbPatientProgram getMostRecentMdrtbPatientProgram(Patient patient) {
     	List<MdrtbPatientProgram> programs = getMdrtbPatientPrograms(patient);
@@ -160,6 +173,16 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     	else {
     		return null;
     	}
+    }
+
+    public MdrtbPatientProgram getMostRecentMdrtbPatientProgram(Patient patient, Location location) {
+        List<MdrtbPatientProgram> programs = getMdrtbPatientPrograms(patient, location);
+        if (programs.size() > 0) {
+            return programs.get(programs.size() - 1);
+        }
+        else {
+            return null;
+        }
     }
 	
 	public List<MdrtbPatientProgram> getMdrtbPatientProgramsInDateRange(Patient patient, Date startDate, Date endDate) {
