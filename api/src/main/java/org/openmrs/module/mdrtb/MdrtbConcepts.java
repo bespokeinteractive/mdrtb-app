@@ -98,6 +98,10 @@ public class MdrtbConcepts {
     public final static String [] POSITIVE = {"POSITIVE"};
     public final static String [] NEGATIVE = {"NEGATIVE"};
     public final static String [] CONTAMINATED = {"CONTAMINATED"};
+    public final static String [] NOT_DONE = {"NOT DONE"};
+    public final static String [] SUGGESTIVE = {"SUGGESTIVE OF TB"};
+    public final static String [] NOT_SUGGESTIVE = {"NOT SUGGESTIVE OF TB"};
+    public final static String [] INVALID = {"INVALID"};
 
     public final static String [] YES = {"YES"};
     public final static String [] NO = {"NO"};
