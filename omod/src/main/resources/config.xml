@@ -196,6 +196,9 @@
     <mappingFiles>
 		UserLocation.hbm.xml
 		PersonLocation.hbm.xml
+		LocationCentres.hbm.xml
+		LocationCentresRegions.hbm.xml
+		LocationCentresAgencies.hbm.xml
     </mappingFiles>
 
 	<!-- Internationalization -->

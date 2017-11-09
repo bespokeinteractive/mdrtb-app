@@ -1,6 +1,5 @@
 package org.openmrs.module.mdrtb.service.db;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,8 +14,7 @@ import org.openmrs.Person;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.db.DAOException;
-import org.openmrs.module.mdrtb.model.PersonLocation;
-import org.openmrs.module.mdrtb.model.UserLocation;
+import org.openmrs.module.mdrtb.model.*;
 import org.openmrs.module.mdrtb.service.MdrtbService;
 
 public class HibernateMdrtbDAO implements MdrtbDAO {
@@ -62,35 +60,6 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
         return (UserLocation) criteria.uniqueResult();
     }
 
-    public String getUserLocationsAsString(User user){
-        String UserLocations = "N/A";
-        List<Location> locations = getLocationsByUser(user);
-        for (int i=0; i<locations.size(); i++){
-            if (i == 0){
-                UserLocations = locations.get(i).getName();
-            }
-            else if (i == (locations.size()-1)){
-                UserLocations += " & " + locations.get(i).getName();
-            }
-            else {
-                UserLocations += ", " + locations.get(i).getName();
-            }
-        }
-
-        return UserLocations;
-    }
-
-    public List<Location> getLocationsByUser(User user){
-        List<UserLocation> locales = getUserLocations(user);
-        List<Location> locations = new ArrayList<Location>();
-
-        for (UserLocation locale: locales){
-            locations.add(locale.getLocation());
-        }
-
-        return locations;
-    }
-
     public List<PersonLocation> getPersonLocations(Person person){
         Criteria criteria = getSession().createCriteria(PersonLocation.class);
         criteria.add(Restrictions.eq("person", person));
@@ -107,7 +76,7 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
 
     public void setUserLocations(User user, List<Location> pLocations){
         List<Location> aLocations = Context.getLocationService().getAllLocations();
-        List<Location> uLocations = getLocationsByUser(user);
+        List<Location> uLocations = Context.getService(MdrtbService.class).getLocationsByUser(user);
 
         for (Location location: aLocations){
             if (pLocations.contains(location) && !uLocations.contains(location)){
@@ -127,5 +96,60 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
 
     public PersonLocation savePersonLocation(PersonLocation pl){
         return (PersonLocation)getSession().merge(pl);
+    }
+
+    //Imports
+    public List<LocationCentres> getCentres(){
+        Criteria criteria = getSession().createCriteria(LocationCentres.class);
+        List list = criteria.list();
+        return list;
+    }
+
+    public List<LocationCentresAgencies> getAgencies(){
+        Criteria criteria = getSession().createCriteria(LocationCentresAgencies.class);
+        List list = criteria.list();
+        return list;
+    }
+
+    public List<LocationCentresRegions> getRegions(){
+        Criteria criteria = getSession().createCriteria(LocationCentresRegions.class);
+        List list = criteria.list();
+        return list;
+    }
+
+    public List<LocationCentres> getCentresByRegion(String region){
+        Criteria criteria = getSession().createCriteria(LocationCentresRegions.class);
+        criteria.add(Restrictions.eq("region", getRegionByName(region)));
+
+        List list = criteria.list();
+        return list;
+    }
+
+    public LocationCentres getCentresByLocation(Location location){
+        Criteria criteria = getSession().createCriteria(LocationCentres.class);
+        criteria.add(Restrictions.eq("location", location));
+        return (LocationCentres) criteria.uniqueResult();
+    }
+
+    public LocationCentres saveLocationCentres(LocationCentres centre){
+        return (LocationCentres)getSession().merge(centre);
+    }
+
+    public LocationCentresAgencies getAgency(Integer agentId){
+        Criteria criteria = getSession().createCriteria(LocationCentresAgencies.class);
+        criteria.add(Restrictions.eq("id", agentId));
+        return (LocationCentresAgencies) criteria.uniqueResult();
+    }
+
+    public LocationCentresRegions getRegion(Integer regionId){
+        Criteria criteria = getSession().createCriteria(LocationCentresRegions.class);
+        criteria.add(Restrictions.eq("id", regionId));
+        return (LocationCentresRegions) criteria.uniqueResult();
+    }
+
+    public LocationCentresRegions getRegionByName(String name){
+        Criteria criteria = getSession().createCriteria(LocationCentresRegions.class);
+        criteria.add(Restrictions.eq("name", name));
+        return (LocationCentresRegions) criteria.uniqueResult();
     }
 }

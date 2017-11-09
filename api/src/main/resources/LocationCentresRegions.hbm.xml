@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="org.openmrs.module.mdrtb.model">
+	<class name="org.openmrs.module.mdrtb.model.LocationCentresRegions" table="location_centres_regions" batch-size="500">
+		<id name="id" type="int" length="11" column="region_id" unsaved-value="0">
+				<generator class="native" />
+		</id>
+		<property name="name" column="name" type="java.lang.String" length="255"  />
+		<property name="createdOn" column="created_on" type="java.util.Date"  />
+		<many-to-one name="creator" class="org.openmrs.Person" column="created_by" cascade="none"  />
+	</class>
+</hibernate-mapping>

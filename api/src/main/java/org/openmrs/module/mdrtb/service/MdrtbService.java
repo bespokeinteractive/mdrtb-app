@@ -8,8 +8,7 @@ import java.util.Set;
 import org.hibernate.engine.loading.LoadContexts;
 import org.openmrs.*;
 import org.openmrs.api.OpenmrsService;
-import org.openmrs.module.mdrtb.model.PersonLocation;
-import org.openmrs.module.mdrtb.model.UserLocation;
+import org.openmrs.module.mdrtb.model.*;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.specimen.Culture;
 import org.openmrs.module.mdrtb.specimen.Dst;
@@ -491,5 +490,22 @@ public interface MdrtbService extends OpenmrsService {
 
     @Transactional
     public PersonLocation savePersonLocation(PersonLocation pl);
+
+    //Imports
+    List<LocationCentresAgencies> getAgencies();
+    List<LocationCentresRegions> getRegions();
+    List<LocationCentres> getCentres();
+    List<LocationCentres> getCentresByRegion(String region);
+
+    List<Location> getLocationsFromCentres(String region);
+
+    LocationCentres getCentresByLocation(Location location);
+    LocationCentresAgencies getAgency(Integer agentId);
+    LocationCentresRegions getRegion(Integer regionId);
+    LocationCentresRegions getRegionByName(String name);
+
+    @Transactional
+    LocationCentres saveLocationCentres(LocationCentres centre);
+
 }
 

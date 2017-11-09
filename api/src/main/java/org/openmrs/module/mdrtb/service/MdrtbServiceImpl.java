@@ -29,8 +29,7 @@ import org.openmrs.module.mdrtb.MdrtbUtil;
 import org.openmrs.module.mdrtb.comparator.PatientProgramComparator;
 import org.openmrs.module.mdrtb.comparator.PersonByNameComparator;
 import org.openmrs.module.mdrtb.exception.MdrtbAPIException;
-import org.openmrs.module.mdrtb.model.PersonLocation;
-import org.openmrs.module.mdrtb.model.UserLocation;
+import org.openmrs.module.mdrtb.model.*;
 import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
 import org.openmrs.module.mdrtb.service.db.MdrtbDAO;
 import org.openmrs.module.mdrtb.specimen.Culture;
@@ -783,7 +782,21 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     }
 
     public String getUserLocationsAsString(User user){
-        return dao.getUserLocationsAsString(user);
+        String UserLocations = "N/A";
+        List<Location> locations = getLocationsByUser(user);
+        for (int i=0; i<locations.size(); i++){
+            if (i == 0){
+                UserLocations = locations.get(i).getName();
+            }
+            else if (i == (locations.size()-1)){
+                UserLocations += " & " + locations.get(i).getName();
+            }
+            else {
+                UserLocations += ", " + locations.get(i).getName();
+            }
+        }
+
+        return UserLocations;
     }
 
     public UserLocation getUserLocations(Location location){
@@ -795,7 +808,45 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     }
 
     public List<Location> getLocationsByUser(User user){
-        return dao.getLocationsByUser(user);
+        Boolean hasAccessAll = user.hasRole("Access All");
+        if (hasAccessAll){
+            return Context.getLocationService().getAllLocations();
+        }
+
+        Boolean hasAccessSC = user.hasRole("Access SouthCentral");
+        Boolean hasAccessPL = user.hasRole("Access Puntland");
+        Boolean hasAccessSL = user.hasRole("Access Somaliland");
+
+        List<Location> locations = new ArrayList<Location>();
+        List<Location> lists = new ArrayList<Location>();
+
+        List<LocationCentres> centres = getCentres();
+        List<UserLocation> userLocations = getUserLocations(user);
+
+        //Get UserLocations TO Locations
+        for (UserLocation loc : userLocations){
+            lists.add(loc.getLocation());
+        }
+
+        //Test Application Locations
+        for (LocationCentres centre : centres){
+            if (hasAccessPL && centre.getRegion().getName().equals("Puntland")){
+                locations.add(centre.getLocation());
+            }
+            else if (hasAccessSC && centre.getRegion().getName().equals("South Central")){
+                locations.add(centre.getLocation());
+            }
+            else if (hasAccessSL && centre.getRegion().getName().equals("Somaliland")){
+                locations.add(centre.getLocation());
+            }
+            else {
+                if (lists.contains(centre.getLocation())){
+                    locations.add(centre.getLocation());
+                }
+            }
+        }
+
+        return locations;
     }
 
 	public List<Location> getLocationsByUser(){
@@ -816,5 +867,50 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 
 	public PersonLocation savePersonLocation(PersonLocation pl){
     	return dao.savePersonLocation(pl);
+	}
+
+	//Imports
+    public List<Location> getLocationsFromCentres(String region){
+        List<Location> locations = new ArrayList<Location>();
+	    List<LocationCentres> centres = getCentresByRegion(region);
+	    for(LocationCentres centre : centres){
+            locations.add(centre.getLocation());
+        }
+
+        return locations;
+    }
+    public List<LocationCentres> getCentres(){
+        return dao.getCentres();
+    }
+
+    public List<LocationCentresAgencies> getAgencies(){
+        return dao.getAgencies();
+    }
+
+    public List<LocationCentresRegions> getRegions(){
+        return dao.getRegions();
+    }
+
+    public LocationCentres getCentresByLocation(Location location){
+        return dao.getCentresByLocation(location);
+    }
+
+    public List<LocationCentres> getCentresByRegion(String region){
+        return dao.getCentresByRegion(region);
+    }
+
+    public LocationCentres saveLocationCentres(LocationCentres centre){
+        return dao.saveLocationCentres(centre);
+    }
+    public LocationCentresAgencies getAgency(Integer agentId){
+        return dao.getAgency(agentId);
+    }
+
+    public LocationCentresRegions getRegion(Integer regionId){
+        return dao.getRegion(regionId);
+    }
+
+	public LocationCentresRegions getRegionByName(String name){
+    	return dao.getRegionByName(name);
 	}
 }

@@ -6,8 +6,7 @@ import org.openmrs.Location;
 import org.openmrs.Person;
 import org.openmrs.User;
 import org.openmrs.api.db.DAOException;
-import org.openmrs.module.mdrtb.model.PersonLocation;
-import org.openmrs.module.mdrtb.model.UserLocation;
+import org.openmrs.module.mdrtb.model.*;
 
 public interface MdrtbDAO {
 
@@ -20,9 +19,7 @@ public interface MdrtbDAO {
 
     public UserLocation getUserLocations(User user, Location location);
 
-    public String getUserLocationsAsString(User user);
-
-    public List<Location> getLocationsByUser(User user);
+    //public List<Location> getLocationsByUser(User user);
 
     public List<PersonLocation> getPersonLocations(Person person);
 
@@ -31,4 +28,15 @@ public interface MdrtbDAO {
     public void setUserLocations(User user, List<Location> locations);
 
     public PersonLocation savePersonLocation(PersonLocation pl);
+
+    //Imports
+    List<LocationCentres> getCentres();
+    List<LocationCentresAgencies> getAgencies();
+    List<LocationCentresRegions> getRegions();
+    List<LocationCentres> getCentresByRegion(String region);
+    LocationCentres getCentresByLocation(Location location);
+    LocationCentres saveLocationCentres(LocationCentres centre);
+    LocationCentresAgencies getAgency(Integer agentId);
+    LocationCentresRegions getRegion(Integer regionId);
+    LocationCentresRegions getRegionByName(String name);
 }
