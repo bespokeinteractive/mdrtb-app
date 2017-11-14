@@ -89,7 +89,9 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
             else if (uLocations.contains(location) && !pLocations.contains(location)){
                 //Was there but not now, Remove
                 UserLocation locale = getUserLocations(user, location);
-                getSession().delete(locale);
+                if (locale != null){
+                    getSession().delete(locale);
+                }
             }
         }
     }
@@ -118,8 +120,9 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
     }
 
     public List<LocationCentres> getCentresByRegion(String region){
-        Criteria criteria = getSession().createCriteria(LocationCentresRegions.class);
-        criteria.add(Restrictions.eq("region", getRegionByName(region)));
+        Criteria criteria = getSession().createCriteria(LocationCentres.class);
+        criteria.createAlias("region", "rg");
+        criteria.add(Restrictions.eq("rg.name", region));
 
         List list = criteria.list();
         return list;
