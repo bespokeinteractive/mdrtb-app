@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.engine.loading.LoadContexts;
 import org.openmrs.*;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.mdrtb.model.*;
@@ -16,9 +15,6 @@ import org.openmrs.module.mdrtb.specimen.ScannedLabReport;
 import org.openmrs.module.mdrtb.specimen.Smear;
 import org.openmrs.module.mdrtb.specimen.Specimen;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.swing.plaf.PanelUI;
-
 
 public interface MdrtbService extends OpenmrsService {
 
@@ -492,20 +488,24 @@ public interface MdrtbService extends OpenmrsService {
     public PersonLocation savePersonLocation(PersonLocation pl);
 
     //Imports
-    List<LocationCentresAgencies> getAgencies();
-    List<LocationCentresRegions> getRegions();
-    List<LocationCentres> getCentres();
-    List<LocationCentres> getCentresByRegion(String region);
+    public List<LocationCentres> getCentres();
+    public List<LocationCentres> getCentres(List<Location> locations);
+    public List<LocationCentres> getCentresByRegion(String region);
+    public List<Location> getLocationsFromCentres(String region);
+    public LocationCentres getCentresByLocation(Location location);
 
-    List<Location> getLocationsFromCentres(String region);
 
-    LocationCentres getCentresByLocation(Location location);
-    LocationCentresAgencies getAgency(Integer agentId);
-    LocationCentresRegions getRegion(Integer regionId);
-    LocationCentresRegions getRegionByName(String name);
+    public List<LocationCentresAgencies> getAgencies();
+    public List<LocationCentresAgencies> getAgencies(List<Location> locations);
+
+    public LocationCentresAgencies getAgency(Integer agentId);
+
+    public List<LocationCentresRegions> getRegions();
+    public LocationCentresRegions getRegion(Integer regionId);
+    public LocationCentresRegions getRegionByName(String name);
 
     @Transactional
-    LocationCentres saveLocationCentres(LocationCentres centre);
+    public LocationCentres saveLocationCentres(LocationCentres centre);
 
 }
 

@@ -107,6 +107,13 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
         return list;
     }
 
+    public List<LocationCentres> getCentres(List<Location> locations){
+        Criteria criteria = getSession().createCriteria(LocationCentres.class);
+        criteria.add(Restrictions.in("location", locations));
+
+        return criteria.list();
+    }
+
     public List<LocationCentresAgencies> getAgencies(){
         Criteria criteria = getSession().createCriteria(LocationCentresAgencies.class);
         List list = criteria.list();

@@ -883,8 +883,24 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
         return dao.getCentres();
     }
 
+    public List<LocationCentres> getCentres(List<Location> locations){
+    	return dao.getCentres(locations);
+	}
+
     public List<LocationCentresAgencies> getAgencies(){
         return dao.getAgencies();
+    }
+
+    public List<LocationCentresAgencies> getAgencies(List<Location> locations){
+        List<LocationCentresAgencies> agencies = new ArrayList<LocationCentresAgencies>();
+        List<LocationCentres> centres = getCentres(locations);
+        for(LocationCentres centre : centres){
+            if (!agencies.contains(centre.getAgency())){
+                agencies.add(centre.getAgency());
+            }
+        }
+
+        return agencies;
     }
 
     public List<LocationCentresRegions> getRegions(){
