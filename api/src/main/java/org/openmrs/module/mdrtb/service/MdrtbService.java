@@ -488,12 +488,14 @@ public interface MdrtbService extends OpenmrsService {
     public PersonLocation savePersonLocation(PersonLocation pl);
 
     //Imports
+    public LocationCentres getCentre(Integer id);
     public List<LocationCentres> getCentres();
     public List<LocationCentres> getCentres(List<Location> locations);
+    public List<LocationCentres> getCentres(LocationCentresAgencies agency);
     public List<LocationCentres> getCentresByRegion(String region);
-    public List<Location> getLocationsFromCentres(String region);
     public LocationCentres getCentresByLocation(Location location);
 
+    public List<Location> getLocationsFromCentres(String region);
 
     public List<LocationCentresAgencies> getAgencies();
     public List<LocationCentresAgencies> getAgencies(List<Location> locations);

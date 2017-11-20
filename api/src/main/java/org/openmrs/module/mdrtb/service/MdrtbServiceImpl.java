@@ -870,6 +870,9 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 	}
 
 	//Imports
+    public LocationCentres getCentre(Integer id){
+	    return dao.getCentre(id);
+    }
     public List<Location> getLocationsFromCentres(String region){
         List<Location> locations = new ArrayList<Location>();
 	    List<LocationCentres> centres = getCentresByRegion(region);
@@ -886,6 +889,10 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     public List<LocationCentres> getCentres(List<Location> locations){
     	return dao.getCentres(locations);
 	}
+
+    public List<LocationCentres> getCentres(LocationCentresAgencies agency){
+        return dao.getCentres(agency);
+    }
 
     public List<LocationCentresAgencies> getAgencies(){
         return dao.getAgencies();

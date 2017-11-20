@@ -101,6 +101,13 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
     }
 
     //Imports
+    public LocationCentres getCentre(Integer id){
+        Criteria criteria = getSession().createCriteria(LocationCentres.class);
+        criteria.add(Restrictions.eq("id", id));
+
+        return (LocationCentres) criteria.uniqueResult();
+    }
+
     public List<LocationCentres> getCentres(){
         Criteria criteria = getSession().createCriteria(LocationCentres.class);
         List list = criteria.list();
@@ -110,6 +117,13 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
     public List<LocationCentres> getCentres(List<Location> locations){
         Criteria criteria = getSession().createCriteria(LocationCentres.class);
         criteria.add(Restrictions.in("location", locations));
+
+        return criteria.list();
+    }
+
+    public List<LocationCentres> getCentres(LocationCentresAgencies agency){
+        Criteria criteria = getSession().createCriteria(LocationCentres.class);
+        criteria.add(Restrictions.eq("agency", agency));
 
         return criteria.list();
     }

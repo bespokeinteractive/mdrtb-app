@@ -19,6 +19,10 @@ public class LocationCentres implements Serializable {
     private Person creator;
     private Date createdOn;
 
+    //Non-Persistent Properties
+    private Double amount;
+    private String comment;
+
     public Integer getId() {
         return id;
     }
@@ -73,5 +77,21 @@ public class LocationCentres implements Serializable {
 
     public void setCreatedOn(Date createdOn) {
         this.createdOn = createdOn;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

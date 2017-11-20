@@ -30,13 +30,16 @@ public interface MdrtbDAO {
     public PersonLocation savePersonLocation(PersonLocation pl);
 
     //Imports
+    public LocationCentres getCentre(Integer id);
     public List<LocationCentres> getCentres();
     public List<LocationCentres> getCentres(List<Location> locations);
+    public List<LocationCentres> getCentres(LocationCentresAgencies agency);
     public List<LocationCentres> getCentresByRegion(String region);
-    public List<LocationCentresAgencies> getAgencies();
-    public List<LocationCentresRegions> getRegions();
     public LocationCentres getCentresByLocation(Location location);
     public LocationCentres saveLocationCentres(LocationCentres centre);
+
+    public List<LocationCentresAgencies> getAgencies();
+    public List<LocationCentresRegions> getRegions();
     public LocationCentresAgencies getAgency(Integer agentId);
     public LocationCentresRegions getRegion(Integer regionId);
     public LocationCentresRegions getRegionByName(String name);
