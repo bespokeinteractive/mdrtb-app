@@ -1,10 +1,9 @@
 package org.openmrs.module.mdrtb.service.db;
 
+import java.util.Date;
 import java.util.List;
 
-import org.openmrs.Location;
-import org.openmrs.Person;
-import org.openmrs.User;
+import org.openmrs.*;
 import org.openmrs.api.db.DAOException;
 import org.openmrs.module.mdrtb.model.*;
 
@@ -43,4 +42,38 @@ public interface MdrtbDAO {
     public LocationCentresAgencies getAgency(Integer agentId);
     public LocationCentresRegions getRegion(Integer regionId);
     public LocationCentresRegions getRegionByName(String name);
+
+    //New Imports
+    LocationFacilities getLocationFacility(Location location);
+    LocationFacilities saveLocationFacilities(LocationFacilities facility);
+    LocationFacilities getFacilityById(Integer facilityId);
+    List<LocationFacilities> getFacilities(Location location, String status);
+
+    //Final Imports
+    PatientProgramDetails getPatientProgramDetails(Integer ppid);
+    PatientProgramDetails savePatientProgramDetails(PatientProgramDetails patientProgramDetails);
+    PatientProgramDetails saveParentProgramOutcome(PatientProgramDetails ppd, Concept outcome, Date completedOn);
+    List<PatientProgramDetails> getActivePatients(Location location, Program program);
+
+    PatientProgramTransfers savePatientProgramTransfers(PatientProgramTransfers patientProgramTransfers);
+    PatientProgramTransfers getPatientProgramTransfers(Integer transferId);
+    List<PatientProgramTransfers> getPatientProgramTransfers(Location location, Boolean status);
+    List<PatientProgramTransfers> getActivePatientTransfers(PatientProgram patientProgram);
+    RegimentType getRegimenType(Concept concept, Program program);
+    List<RegimentType> getRegimenTypes(Concept concept, Program program);
+
+    PatientProgramRegimen savePatientProgramRegimen(PatientProgramRegimen patientProgramRegimen);
+    List<PatientProgramRegimen> getPatientProgramRegimens(PatientProgramDetails pd, Boolean active);
+
+    PatientProgramVisits savePatientProgramVisits(PatientProgramVisits patientProgramVisit);
+    PatientProgramVisits getPatientProgramVisit(PatientProgram patientProgram, VisitTypes visitType);
+    PatientProgramVisits getPatientProgramVisit(Encounter encounter);
+    List<PatientProgramVisits> getPatientProgramVisits(PatientProgram patientProgram);
+
+    List<VisitTypes> getVisitTypes(Program program, Boolean initial, Boolean finals, Boolean voided);
+    VisitTypes getVisitType(Program program, String name);
+    VisitTypes getVisitType(Integer id);
+
+    PatientProgramDetails getPatientProgramDetails(PatientProgram patientProgram);
+    List<PatientProgramDetails> getPatientsFromDetails(Location location, Date startDate, Date endDate, LocationFacilities facility);
 }

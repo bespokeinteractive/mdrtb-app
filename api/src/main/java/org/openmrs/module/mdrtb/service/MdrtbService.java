@@ -509,5 +509,47 @@ public interface MdrtbService extends OpenmrsService {
     @Transactional
     public LocationCentres saveLocationCentres(LocationCentres centre);
 
+
+    LocationFacilities getLocationFacility(Location location);
+    LocationFacilities getFacilityById(Integer facilityId);
+    List<LocationFacilities> getFacilities(Location location, String status);
+
+    @Transactional
+    LocationFacilities saveLocationFacilities(LocationFacilities facility);
+
+    //Final Inports
+    List<PatientProgramDetails> getActivePatients(Location location, Program program);
+    PatientProgramDetails getPatientProgramDetails(Integer ppid);
+    PatientProgramDetails getPatientProgramDetails(PatientProgram pp);
+    PatientProgramDetails getPatientProgramDetails(MdrtbPatientProgram mpp);
+
+    List<PatientProgramRegimen> getPatientProgramRegimens(PatientProgramDetails pd, Boolean active);
+    List<RegimentType> getRegimenTypes(Concept concept, Program program);
+    RegimentType getRegimenType(Concept concept, Program program);
+
+    List<VisitTypes> getVisitTypes(Program program, Boolean initial, Boolean finals, Boolean voided);
+    VisitTypes getVisitType(Program program, String name);
+    VisitTypes getVisitType(Integer id);
+
+    PatientProgramVisits getPatientProgramVisit(PatientProgram patientProgram, VisitTypes visitType);
+    PatientProgramVisits getPatientProgramVisit(Encounter encounter);
+    List<PatientProgramVisits> getPatientProgramVisits(PatientProgram patientProgram);
+
+    List<PatientProgramTransfers> getActivePatientTransfers(PatientProgram patientProgram);
+    List<PatientProgramTransfers> getPatientProgramTransfers(Location location, Boolean status);
+    PatientProgramTransfers getPatientProgramTransfers(Integer transferId);
+    List<PatientProgramDetails> getPatientsFromDetails(Location location, Date startDate, Date endDate, LocationFacilities facility);
+
+    @Transactional
+    PatientProgramDetails savePatientProgramDetails(PatientProgramDetails patientProgramDetails);
+    @Transactional
+    PatientProgramDetails saveParentProgramOutcome(PatientProgramDetails ppd, Concept outcome, Date completedOn);
+    @Transactional
+    PatientProgramVisits savePatientProgramVisits(PatientProgramVisits patientProgramVisit);
+    @Transactional
+    PatientProgramRegimen savePatientProgramRegimen(PatientProgramRegimen patientProgramRegimen);
+    @Transactional
+    PatientProgramTransfers savePatientProgramTransfers(PatientProgramTransfers patientProgramTransfers);
+
 }
 

@@ -925,7 +925,24 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
     public LocationCentres saveLocationCentres(LocationCentres centre){
         return dao.saveLocationCentres(centre);
     }
-    public LocationCentresAgencies getAgency(Integer agentId){
+
+    public LocationFacilities getLocationFacility(Location location) {
+        return dao.getLocationFacility(location);
+    }
+
+	public LocationFacilities getFacilityById(Integer facilityId) {
+		return dao.getFacilityById(facilityId);
+	}
+
+	public List<LocationFacilities> getFacilities(Location location, String status) {
+		return dao.getFacilities(location, status);
+	}
+
+	public LocationFacilities saveLocationFacilities(LocationFacilities facility) {
+		return dao.saveLocationFacilities(facility);
+	}
+
+	public LocationCentresAgencies getAgency(Integer agentId){
         return dao.getAgency(agentId);
     }
 
@@ -935,5 +952,93 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 
 	public LocationCentresRegions getRegionByName(String name){
     	return dao.getRegionByName(name);
+	}
+
+	public List<PatientProgramDetails> getActivePatients(Location location, Program program){
+		return dao.getActivePatients(location, program);
+	}
+
+	public PatientProgramDetails getPatientProgramDetails(PatientProgram pp){
+		return dao.getPatientProgramDetails(pp);
+	}
+
+	public PatientProgramDetails getPatientProgramDetails(MdrtbPatientProgram mpp){
+		return getPatientProgramDetails(mpp.getPatientProgram());
+	}
+
+	public PatientProgramDetails savePatientProgramDetails(PatientProgramDetails patientProgramDetails) {
+		return dao.savePatientProgramDetails(patientProgramDetails);
+	}
+
+	public PatientProgramDetails saveParentProgramOutcome(PatientProgramDetails ppd, Concept outcome, Date completedOn){
+		return dao.saveParentProgramOutcome(ppd, outcome, completedOn);
+	}
+
+	public PatientProgramVisits savePatientProgramVisits(PatientProgramVisits patientProgramVisit){
+		return dao.savePatientProgramVisits(patientProgramVisit);
+	}
+
+	public RegimentType getRegimenType(Concept concept, Program program){
+		return dao.getRegimenType(concept, program);
+	}
+
+	public List<RegimentType> getRegimenTypes(Concept concept, Program program){
+		return dao.getRegimenTypes(concept, program);
+	}
+
+	public List<VisitTypes> getVisitTypes(Program program, Boolean initial, Boolean finals, Boolean voided){
+		return dao.getVisitTypes(program, initial, finals, voided);
+	}
+
+	public VisitTypes getVisitType(Program program, String name){
+		return dao.getVisitType(program, name);
+	}
+
+	public VisitTypes getVisitType(Integer id){
+		return dao.getVisitType(id);
+	}
+
+	public PatientProgramVisits getPatientProgramVisit(PatientProgram patientProgram, VisitTypes visitType){
+		return dao.getPatientProgramVisit(patientProgram, visitType);
+	}
+
+	public PatientProgramVisits getPatientProgramVisit(Encounter encounter){
+		return dao.getPatientProgramVisit(encounter);
+	}
+
+	public List<PatientProgramVisits> getPatientProgramVisits(PatientProgram patientProgram){
+		return dao.getPatientProgramVisits(patientProgram);
+	}
+
+	public PatientProgramDetails getPatientProgramDetails(Integer ppid){
+		return dao.getPatientProgramDetails(ppid);
+	}
+
+	public List<PatientProgramRegimen> getPatientProgramRegimens(PatientProgramDetails pd, Boolean active){
+		return dao.getPatientProgramRegimens(pd, active);
+	}
+
+	public PatientProgramRegimen savePatientProgramRegimen(PatientProgramRegimen patientProgramRegimen){
+		return dao.savePatientProgramRegimen(patientProgramRegimen);
+	}
+
+	public List<PatientProgramDetails> getPatientsFromDetails(Location location, Date startDate, Date endDate, LocationFacilities facility){
+		return dao.getPatientsFromDetails(location, startDate, endDate, facility);
+	}
+
+	public List<PatientProgramTransfers> getActivePatientTransfers(PatientProgram patientProgram){
+		return dao.getActivePatientTransfers(patientProgram);
+	}
+
+	public List <PatientProgramTransfers> getPatientProgramTransfers(Location location, Boolean status){
+		return  dao.getPatientProgramTransfers(location, status);
+	}
+
+	public PatientProgramTransfers getPatientProgramTransfers(Integer transferId){
+		return dao.getPatientProgramTransfers(transferId);
+	}
+
+	public PatientProgramTransfers savePatientProgramTransfers(PatientProgramTransfers patientProgramTransfers){
+		return dao.savePatientProgramTransfers(patientProgramTransfers);
 	}
 }

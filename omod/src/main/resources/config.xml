@@ -199,6 +199,13 @@
 		LocationCentres.hbm.xml
 		LocationCentresRegions.hbm.xml
 		LocationCentresAgencies.hbm.xml
+		LocationFacilities.hbm.xml
+        PatientProgramRegimen.hbm.xml
+        PatientProgramDetails.hbm.xml
+        PatientProgramVisits.hbm.xml
+        PatientProgramTransfers.hbm.xml
+        VisitTypes.hbm.xml
+        RegimentType.hbm.xml
     </mappingFiles>
 
 	<!-- Internationalization -->
