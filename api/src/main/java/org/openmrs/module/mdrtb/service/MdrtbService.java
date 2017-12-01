@@ -538,6 +538,7 @@ public interface MdrtbService extends OpenmrsService {
     List<PatientProgramTransfers> getActivePatientTransfers(PatientProgram patientProgram);
     List<PatientProgramTransfers> getPatientProgramTransfers(Location location, Boolean status);
     PatientProgramTransfers getPatientProgramTransfers(Integer transferId);
+    List<PatientProgramDetails> getPatientsFromDetails(Location location, Program program, Date date1, Date date2);
     List<PatientProgramDetails> getPatientsFromDetails(Location location, Date startDate, Date endDate, LocationFacilities facility);
 
     @Transactional

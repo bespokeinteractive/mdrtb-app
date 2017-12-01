@@ -75,5 +75,6 @@ public interface MdrtbDAO {
     VisitTypes getVisitType(Integer id);
 
     PatientProgramDetails getPatientProgramDetails(PatientProgram patientProgram);
+    List<PatientProgramDetails> getPatientsFromDetails(Location location, Program program, Date date1, Date date2);
     List<PatientProgramDetails> getPatientsFromDetails(Location location, Date startDate, Date endDate, LocationFacilities facility);
 }

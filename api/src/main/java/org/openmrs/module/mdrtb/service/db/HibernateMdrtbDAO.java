@@ -10,7 +10,8 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
+import org.hibernate.criterion.Order;
 import org.openmrs.*;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.db.DAOException;
@@ -336,12 +337,29 @@ public class HibernateMdrtbDAO implements MdrtbDAO {
         Criteria criteria = getSession().createCriteria(PatientProgramDetails.class);
         criteria.createAlias("patientProgram", "pp");
         criteria.add(Restrictions.eq("pp.location", location));
-        criteria.add(Restrictions.le("pp.voided", false));
-        criteria.add(Restrictions.ge("pp.dateEnrolled", startDate));
+        criteria.add(Restrictions.eq("pp.voided", false));
+        criteria.add(Restrictions.between("pp.dateEnrolled", startDate, endDate));
         criteria.add(Restrictions.le("pp.dateEnrolled", endDate));
         if (facility != null){
             criteria.add(Restrictions.eq("facility", facility));
         }
+
+        return criteria.list();
+    }
+
+    public List<PatientProgramDetails> getPatientsFromDetails(Location location, Program program, Date date1, Date date2) {
+        Criteria criteria = getSession().createCriteria(PatientProgramDetails.class);
+        criteria.createAlias("patientProgram", "pp");
+        criteria.add(Restrictions.eq("pp.location", location));
+        criteria.add(Restrictions.eq("pp.program", program));
+        criteria.add(Restrictions.eq("pp.voided", false));
+        criteria.add(Restrictions.ge("pp.dateEnrolled", date1));
+
+        Criterion enrolled = Restrictions.between("pp.dateEnrolled", date1, date2);
+        Criterion completed = Restrictions.or(Restrictions.isNull("pp.dateCompleted"), Restrictions.le("pp.dateCompleted", date2));
+        
+        criteria.add(Restrictions.or(enrolled, completed));
+        criteria.addOrder(Order.asc("tbmuNumber"));
 
         return criteria.list();
     }

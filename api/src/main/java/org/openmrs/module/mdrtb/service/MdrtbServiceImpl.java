@@ -1038,7 +1038,11 @@ public class MdrtbServiceImpl extends BaseOpenmrsService implements MdrtbService
 		return dao.getPatientProgramTransfers(transferId);
 	}
 
-	public PatientProgramTransfers savePatientProgramTransfers(PatientProgramTransfers patientProgramTransfers){
+    public List<PatientProgramDetails> getPatientsFromDetails(Location location, Program program, Date date1, Date date2) {
+        return dao.getPatientsFromDetails(location, program, date1, date2);
+    }
+
+    public PatientProgramTransfers savePatientProgramTransfers(PatientProgramTransfers patientProgramTransfers){
 		return dao.savePatientProgramTransfers(patientProgramTransfers);
 	}
 }
