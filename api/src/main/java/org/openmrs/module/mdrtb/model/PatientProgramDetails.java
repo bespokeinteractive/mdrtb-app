@@ -3,7 +3,11 @@ package org.openmrs.module.mdrtb.model;
 import org.openmrs.Concept;
 import org.openmrs.PatientProgram;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.api.context.Context;
+import org.openmrs.module.mdrtb.MdrtbPatient;
 import org.openmrs.module.mdrtb.model.LocationFacilities;
+import org.openmrs.module.mdrtb.program.MdrtbPatientProgram;
+import org.openmrs.module.mdrtb.service.MdrtbService;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -37,6 +41,11 @@ public class PatientProgramDetails implements Serializable {
     private Concept artStarted;
     private Concept outcome;
     private Boolean transferred;
+
+    //Non-Persistent Properties
+    private String weight = "N/A";
+    private String height = "N/A";
+
     // Start of Getters & Setters
     public Integer getId() {
         return id;
@@ -220,5 +229,31 @@ public class PatientProgramDetails implements Serializable {
 
     public void setSecondLineDate(Date secondLineDate) {
         this.secondLineDate = secondLineDate;
+    }
+
+    public String getWeight() {
+        MdrtbPatientProgram pp = new MdrtbPatientProgram(patientProgram);
+        if (pp.getInitialWeightObsDuringProgram() != null){
+            weight = pp.getInitialWeightObsDuringProgram().getValueNumeric().toString();
+        }
+
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public String getHeight() {
+        MdrtbPatientProgram pp = new MdrtbPatientProgram(patientProgram);
+        if (pp.getInitialHeightObsDuringProgram() != null){
+            height = pp.getInitialHeightObsDuringProgram().getValueNumeric().toString();
+        }
+
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
     }
 }
